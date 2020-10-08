@@ -1,0 +1,16 @@
+.books-component {
+  position: absolute;
+  top: 180px;
+  background: url("../assets/library-bg-mobile.png");
+  background-position: fixed;
+  width: 100vw;
+  height: 200vh;
+}
+.books-container {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
