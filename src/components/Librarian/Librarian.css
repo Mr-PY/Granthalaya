@@ -1,0 +1,54 @@
+.librarian-container {
+  width: 100vw;
+}
+.librarian-main {
+  position: relative;
+  top: 80;
+  width: 100vw;
+  height: 100%;
+  padding: 1em 0;
+  background: #eee;
+}
+
+/* Librarian Books */
+.librarian-books,
+.librarian-users,
+.librarian-messages {
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.button-input-fields-arranger,
+.input-fields-arranger {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2em;
+}
+
+/* Librarian Users */
+
+.librarian-search {
+  /* background: #fff; */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+  padding: 0.5em 0;
+}
+.librarian-search Button {
+  height: 57px;
+}
+
+@media screen and (max-width: 960px) {
+  .librarian-search {
+    gap: 1em;
+  }
+  .librarian-search Button {
+    font-size: 12px;
+    width: 150px;
+  }
+}

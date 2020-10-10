@@ -1,15 +1,15 @@
 import React from "react";
-import BooksComponent from "../components/BooksComponent";
-import NavbarComponent from "../components/NavbarComponent";
-import SearchComponent from "../components/SearchComponent";
+import Books from "../components/Books/Books";
+import Navbar from "../components/Navbar/Navbar";
+import Search from "../components/Search/Search";
 
 const homepage = () => {
   return (
-    <>
-      <NavbarComponent />
-      <SearchComponent />
-      <BooksComponent />
-    </>
+    <div className="home-page">
+      <Navbar active={"home"} />
+      <Search />
+      <Books className="books-wrapper" />
+    </div>
   );
 };
 

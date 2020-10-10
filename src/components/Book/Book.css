@@ -1,0 +1,13 @@
+.book-content {
+  display: flex;
+  flex-direction: row;
+}
+.book-img {
+  height: 120px;
+}
+.book-details {
+  padding-left: 1em;
+}
+.book-actions {
+  margin-top: -10px;
+}

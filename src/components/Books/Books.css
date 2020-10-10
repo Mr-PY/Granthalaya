@@ -1,0 +1,31 @@
+.books-component {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  background: url("../../assets/library-bg-mobile.png");
+  background-position: fixed;
+  width: 100vw;
+  height: 200vh;
+  z-index: 0;
+}
+.books-container {
+  position: absolute;
+  max-width: 100vw;
+  top: 180px;
+  margin-top: 1em;
+  padding: 0 1em;
+  z-index: 1;
+}
+@media screen and (min-width: 960px) {
+  .books-component {
+    position: relative;
+    background: url("../../assets/library-bg.png");
+    filter: blur(0.1em);
+    background-repeat: repeat;
+    background-position: top center;
+    background-size: 100vh;
+  }
+  .books-container {
+    padding: 0 5em;
+  }
+}

@@ -1,0 +1,8 @@
+@media screen and (max-width: 960px) {
+  .librarian-users Button {
+    font-size: 12px;
+  }
+  .input-fields-arranger {
+    flex-direction: column;
+  }
+}
