@@ -32,10 +32,16 @@
 }
 .book-img-container {
   grid-area: img;
-  height: 120px;
+  max-width: 150px;
+  height: 250px;
   border-radius: 5px;
-  background: url("../../assets/books/advanced_java.jpg") no-repeat center left;
-  background-size: 60%;
+  background-size: initial;
+}
+.book-img-container img {
+  box-shadow: 8px 8px 10px rgba(46, 46, 46, 0.506),
+    16px 16px 20px rgba(46, 46, 46, 0.308);
+  max-width: 100%;
+  max-height: 100%;
 }
 .popup-book-details {
   grid-area: popup;
@@ -58,13 +64,13 @@
   font-size: 1em;
   font-weight: 500;
 }
-.borrow-btn {
+.btns {
   position: fixed;
   width: 100vw;
   left: 0;
   bottom: 0;
 }
-.borrow-btn Button {
+.btns Button {
   border-radius: 0;
 }
 .where-to-find {
@@ -74,12 +80,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .book-description {
   grid-area: desc;
   margin: 2em 0 4em 0;
-  padding-top: 1em;
+  padding: 2em 0 3em;
 }
 .book-description-heading {
   margin-top: 1em;
@@ -87,7 +93,8 @@
 .close-btn {
   position: fixed;
   top: 0px;
-  right: 0px;
+  right: 2px;
+  z-index: 100;
 }
 @media screen and (min-width: 960px) {
   .book-details-wrapper {
@@ -101,20 +108,32 @@
     border-radius: 0.5em;
   }
   .book-grid-desktop {
+    position: relative;
+    top: 1em;
     padding: 1em;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 2fr 2fr 6fr;
+    grid-template-rows: 180px 100px calc(90vh - 800px);
     grid-template-areas:
-      "img popup popup . btn"
-      "img popup popup . find"
+      "img popup popup . btns"
+      "find find find . ."
       "desc desc desc desc desc";
   }
+  .where-to-find {
+    height: 40px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
   .book-img-container {
-    height: 300px;
+    position: relative;
+    height: 150px;
     border-radius: 10px;
   }
   .popup-book-details {
     margin-top: 0;
+    align-content: flex-start;
+    justify-self: flex-start;
+    height: 100%;
   }
   .popup-book-details .book-title {
     font-size: 2em;
@@ -122,18 +141,23 @@
   .popup-book-details .book-author {
     font-size: 1.4em;
   }
-  .borrow-btn {
-    grid-area: btn;
+  .btns {
+    grid-area: btns;
     width: 100%;
     height: 100%;
     position: relative;
-    margin-top: 2em;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5em;
   }
-  .borrow-btn Button {
+  .btns Button {
     border-radius: 6px;
   }
   .book-description {
-    margin: 2em 0;
+    max-height: 60%;
+    margin: 3em 0;
   }
   .close-btn {
     top: 10px;

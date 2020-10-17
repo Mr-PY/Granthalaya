@@ -5,7 +5,12 @@
   position: absolute;
   left: 0;
   top: 80px;
-  background: #1976d2;
+  background: linear-gradient(
+    180deg,
+    rgb(36, 69, 119) 0%,
+    rgb(27, 63, 143) 50%,
+    rgb(36, 91, 175) 100%
+  );
   width: 100vw;
   height: 60px;
 }

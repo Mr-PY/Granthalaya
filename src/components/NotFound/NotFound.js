@@ -8,7 +8,7 @@ const NotFound = () => {
     <div className="not-found-container">
       <img
         className="not-found-img"
-        src={require("../../assets/not-found.gif")}
+        src="/assets/images/not-found.gif"
         alt="Page not found"
       />
       <h2 className="not-found-heading">

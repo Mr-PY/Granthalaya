@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector} from 'react-redux';
 import { makeStyles } from "@material-ui/core/styles";
 import BookRow from "./BookRow";
 import Table from "@material-ui/core/Table";
@@ -9,65 +10,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
+import {firestoreConnect} from 'react-redux-firebase';
 
-function createData(
-  bookId,
-  bookName,
-  bookAuthor,
-  whereToFind,
-  totalBooks,
-  availableBooks,
-  bookDescription
-) {
-  return {
-    bookId,
-    bookName,
-    bookAuthor,
-    whereToFind,
-    totalBooks,
-    availableBooks,
-    bookDescription,
-  };
-}
-
-const rows = [
-  createData(
-    1,
-    "ADVANCED JAVA PROGRAMMING",
-    "George F Luger",
-    "Computer Science Rack: 2 Row: 3",
-    50,
-    10,
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. A reprehenderit, pariatur quod dolore maxime minima aut exercitationem quisquam maiores mollitia iusto vel accusamus dignissimos distinctio nobis sit nesciunt modi impedit?"
-  ),
-  createData(
-    1,
-    "ADVANCED JAVA PROGRAMMING",
-    "George F Luger",
-    "Computer Science Rack: 2 Row: 3",
-    50,
-    10,
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. A reprehenderit, pariatur quod dolore maxime minima aut exercitationem quisquam maiores mollitia iusto vel accusamus dignissimos distinctio nobis sit nesciunt modi impedit?"
-  ),
-  createData(
-    1,
-    "ADVANCED JAVA PROGRAMMING",
-    "George F Luger",
-    "Computer Science Rack: 2 Row: 3",
-    50,
-    10,
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. A reprehenderit, pariatur quod dolore maxime minima aut exercitationem quisquam maiores mollitia iusto vel accusamus dignissimos distinctio nobis sit nesciunt modi impedit?"
-  ),
-  createData(
-    1,
-    "ADVANCED JAVA PROGRAMMING",
-    "George F Luger",
-    "Computer Science Rack: 2 Row: 3",
-    50,
-    10,
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. A reprehenderit, pariatur quod dolore maxime minima aut exercitationem quisquam maiores mollitia iusto vel accusamus dignissimos distinctio nobis sit nesciunt modi impedit?"
-  ),
-];
 
 const useStyles = makeStyles({
   root: {
@@ -79,6 +23,7 @@ const useStyles = makeStyles({
 });
 
 const LibrarianTable = () => {
+  const books = useSelector(state => state.firestore.ordered.books);
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -104,7 +49,7 @@ const LibrarianTable = () => {
             <TableRow>
               <TableCell />
               <TableCell align="right">Id</TableCell>
-              <TableCell>Book Name</TableCell>
+              <TableCell>Book Title</TableCell>
               <TableCell>Author</TableCell>
               <TableCell>Where To Find</TableCell>
               <TableCell align="right">Total</TableCell>
@@ -112,8 +57,8 @@ const LibrarianTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <BookRow key={row.bookId} row={row} />
+            {books && books.map((book) => (
+              <BookRow key={book.book_id} book={book} />
             ))}
           </TableBody>
         </Table>
@@ -121,7 +66,7 @@ const LibrarianTable = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={books ? books.length : 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
@@ -131,4 +76,8 @@ const LibrarianTable = () => {
   );
 };
 
-export default LibrarianTable;
+export default firestoreConnect(
+  [
+    {collection: 'books'}
+  ]
+  )(LibrarianTable);

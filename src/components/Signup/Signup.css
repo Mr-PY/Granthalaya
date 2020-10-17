@@ -1,6 +1,39 @@
-.signup-container {
-  margin-top: 2rem;
+.signup-page-bg {
+  display: none;
 }
-.signup-box {
-  background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)";
+.signup-page-overlay {
+  display: none;
+}
+.signup-container {
+  position: relative;
+  margin-top: 0;
+  z-index: 3;
+  height: 100%;
+}
+@media screen and (min-width: 960px) {
+  .signup-page-bg {
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url("/assets/images/bg2.jpg") center center;
+    background-size: cover;
+    filter: blur(2px);
+    z-index: 1;
+  }
+  .signup-page-overlay {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 2;
+  }
+  .signup-container {
+    margin-top: 2rem;
+    padding: 0 1em;
+  }
+  .signup-box {
+  }
 }

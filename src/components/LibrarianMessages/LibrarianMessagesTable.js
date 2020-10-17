@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector} from 'react-redux';
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -9,75 +10,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import MessagesRow from "./MessagesRow";
+import {firestoreConnect} from 'react-redux-firebase';
 
-function createData(
-  messageId,
-  senderName,
-  senderEmail,
-  messageDate,
-  messageBody
-) {
-  return {
-    messageId,
-    senderName,
-    senderEmail,
-    messageDate,
-    messageBody,
-  };
-}
-
-const rows = [
-  createData(
-    1,
-    "Pranay Prasad",
-    "Pranayprasad@gmail.com",
-    "2020-01-12",
-    "Hello"
-  ),
-  createData(2, "John Snow", "JohnSnow@gmail.com", "2020-01-23", "It Works???"),
-  createData(
-    3,
-    "Pranay Prasad",
-    "Pranayprasad@gmail.com",
-    "2020-01-12",
-    "Hello"
-  ),
-  createData(
-    4,
-    "Pranay Prasad",
-    "Pranayprasad@gmail.com",
-    "2020-01-12",
-    "Hello"
-  ),
-  createData(
-    5,
-    "Pranay Prasad",
-    "Pranayprasad@gmail.com",
-    "2020-01-12",
-    "Hello"
-  ),
-  createData(
-    6,
-    "Pranay Prasad",
-    "Pranayprasad@gmail.com",
-    "2020-01-12",
-    "Hello"
-  ),
-  createData(
-    7,
-    "Pranay Prasad",
-    "Pranayprasad@gmail.com",
-    "2020-01-12",
-    "Hello"
-  ),
-  createData(
-    8,
-    "Pranay Prasad",
-    "Pranayprasad@gmail.com",
-    "2020-01-12",
-    "Hello"
-  ),
-];
 
 const useStyles = makeStyles({
   root: {
@@ -89,6 +23,7 @@ const useStyles = makeStyles({
 });
 
 const LibrarianMessagesTable = ({ reply, setReply }) => {
+  const messages = useSelector(state => state.messages.messages);
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -122,15 +57,13 @@ const LibrarianMessagesTable = ({ reply, setReply }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <MessagesRow
-                key={row.messageId}
-                row={row}
+            {messages.map(message =>(
+            <MessagesRow
+                key={message.id}
+                message={message}
                 reply={reply}
                 setReply={setReply}
-              />
-            ))}
-            {console.log(`MessagesTable: ${reply}`)}
+              />))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -138,7 +71,7 @@ const LibrarianMessagesTable = ({ reply, setReply }) => {
         style={{ width: "100%" }}
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={messages.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
@@ -148,4 +81,8 @@ const LibrarianMessagesTable = ({ reply, setReply }) => {
   );
 };
 
-export default LibrarianMessagesTable;
+export default firestoreConnect(
+  [
+    { collection: 'messages'}
+  ]
+)(LibrarianMessagesTable);

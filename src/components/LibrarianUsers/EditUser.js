@@ -22,7 +22,6 @@ const EditUser = () => {
         <br />
         <div className="input-fields-arranger">
           <TextField
-            id="outlined-basic"
             label="User Id"
             variant="outlined"
             size="medium"
@@ -43,7 +42,6 @@ const EditUser = () => {
         <div className="input-fields-arranger">
           <TextField
             required
-            id="outlined-basic"
             label="Full Name"
             variant="outlined"
             size="medium"
@@ -51,7 +49,6 @@ const EditUser = () => {
           />
           <TextField
             required
-            id="outlined-basic"
             label="Phone"
             variant="outlined"
             size="medium"
@@ -63,7 +60,6 @@ const EditUser = () => {
         <div className="input-fields-arranger">
           <TextField
             required
-            id="outlined-basic"
             label="Email"
             variant="outlined"
             size="medium"

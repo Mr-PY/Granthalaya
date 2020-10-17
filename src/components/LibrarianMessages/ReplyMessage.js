@@ -22,7 +22,6 @@ const ReplyMessage = ({ reply, setReply }) => {
         <br />
         <div className="input-fields-arranger">
           <TextField
-            id="outlined-basic"
             label="Message Id"
             variant="outlined"
             size="medium"
@@ -41,7 +40,6 @@ const ReplyMessage = ({ reply, setReply }) => {
         <br />
         <div className="input-fields-arranger">
           <TextField
-            id="filled-read-only-input"
             label="To"
             defaultValue="Pranay Prasad"
             InputProps={{
@@ -52,7 +50,6 @@ const ReplyMessage = ({ reply, setReply }) => {
             fullWidth
           />
           <TextField
-            id="filled-read-only-input"
             label="Email"
             defaultValue="pranayprasad@gmail.com"
             InputProps={{
@@ -66,7 +63,6 @@ const ReplyMessage = ({ reply, setReply }) => {
         <br />
         <br />
         <TextField
-          id="outlined-multiline-static"
           label="Message"
           defaultValue="Hello"
           InputProps={{
@@ -81,7 +77,6 @@ const ReplyMessage = ({ reply, setReply }) => {
         <br />
         <br />
         <TextField
-          id="outlined-multiline-static"
           label="Your Reply"
           multiline
           rows={4}

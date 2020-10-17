@@ -9,8 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 
-const BookRow = (props) => {
-  const { row } = props;
+const BookRow = ({book}) => {
   const [open, setOpen] = useState(false);
   const classes = makeStyles({
     root: {
@@ -38,16 +37,16 @@ const BookRow = (props) => {
           align="right"
           style={{ width: 50 }}
         >
-          {row.bookId}
+          {book.book_id}
         </TableCell>
-        <TableCell style={{ width: 200 }}>{row.bookName}</TableCell>
-        <TableCell style={{ width: 150 }}>{row.bookAuthor}</TableCell>
-        <TableCell style={{ width: 200 }}>{row.whereToFind}</TableCell>
+        <TableCell style={{ width: 200 }}>{book.book_title}</TableCell>
+        <TableCell style={{ width: 150 }}>{book.book_author}</TableCell>
+  <TableCell style={{ width: 200 }}>Department: {book.book_department}, Rack: {book.book_rack} Row: {book.book_row}</TableCell>
         <TableCell align="right" style={{ width: 50 }}>
-          {row.totalBooks}
+          {book.book_total}
         </TableCell>
         <TableCell align="right" style={{ width: 50 }}>
-          {row.availableBooks}
+          {book.book_available}
         </TableCell>
       </TableRow>
       <TableRow>
@@ -57,7 +56,7 @@ const BookRow = (props) => {
               <Typography variant="h6" gutterBottom component="div">
                 <u>Description</u>
               </Typography>
-              <Typography>{row.bookDescription}</Typography>
+              <Typography>{book.book_description}</Typography>
             </Box>
           </Collapse>
         </TableCell>

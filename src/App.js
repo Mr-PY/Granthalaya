@@ -10,20 +10,22 @@ import forgotpasswordPage from "./pages/forgotpasswordPage";
 import signupPage from "./pages/signupPage";
 import notfoundPage from "./pages/notfoundPage";
 import BookDetails from "./components/BookDetails/BookDetails";
+import CustomizedSnackbar from "./components/CustomizedSnackbar/CustomizedSnackbar"
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <CustomizedSnackbar/>
         <Switch>
           <Route exact path="/" component={homePage} />
-          <Route exact path="/profile" component={profilePage} />
-          <Route exact path="/contact-us" component={contactusPage} />
-          <Route exact path="/librarian" component={librarianPage} />
           <Route exact path="/login" component={loginPage} />
           <Route exact path="/forgot-password" component={forgotpasswordPage} />
           <Route exact path="/signup" component={signupPage} />
-          <Route exact path="/book-details" component={BookDetails} />
+          <Route exact path="/profile" component={profilePage} />
+          <Route exact path="/contact-us" component={contactusPage} />
+          <Route exact path="/librarian" component={librarianPage} />
+          <Route exact path="/book-details:id" component={BookDetails} />
           <Route path="*" component={notfoundPage} />
         </Switch>
       </div>

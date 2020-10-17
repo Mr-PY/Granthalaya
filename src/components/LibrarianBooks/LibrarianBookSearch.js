@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import SearchIcon from "@material-ui/icons/Search";
@@ -6,8 +6,7 @@ import SearchIcon from "@material-ui/icons/Search";
 const LibrarianBookSearch = () => {
   return (
     <div className="librarian-search">
-      <TextField
-        id="outlined-basic"
+      <TextField      
         label="Search Book"
         variant="outlined"
         style={{ width: 500 }}

@@ -39,7 +39,6 @@ const EditBook = () => {
         <br />
         <div className="input-fields-arranger">
           <TextField
-            id="outlined-basic"
             label="Book Id"
             variant="outlined"
             size="medium"
@@ -59,15 +58,13 @@ const EditBook = () => {
         <div className="input-fields-arranger">
           <TextField
             required
-            id="outlined-basic"
-            label="Book Name"
+            label="Book Title"
             variant="outlined"
             size="medium"
             fullWidth
           />
           <TextField
             required
-            id="outlined-basic"
             label="Author"
             variant="outlined"
             size="medium"
@@ -78,7 +75,6 @@ const EditBook = () => {
         <br />
         <div className="input-fields-arranger">
           <TextField
-            id="filled-read-only-input"
             label="Add Image"
             defaultValue="c:/Downloads/pic.jpg"
             InputProps={{
@@ -91,7 +87,6 @@ const EditBook = () => {
           <input
             accept="image/*"
             className={classes.input}
-            id="contained-button-file"
             multiple
             type="file"
           />
@@ -112,7 +107,6 @@ const EditBook = () => {
         <div className="input-fields-arranger">
           <TextField
             required
-            id="outlined-basic"
             label="Department"
             variant="outlined"
             size="medium"
@@ -120,7 +114,6 @@ const EditBook = () => {
           />
           <TextField
             required
-            id="outlined-basic"
             label="Rack"
             variant="outlined"
             size="medium"
@@ -132,7 +125,6 @@ const EditBook = () => {
         <div className="input-fields-arranger">
           <TextField
             required
-            id="outlined-basic"
             label="Row"
             variant="outlined"
             size="medium"
@@ -140,7 +132,6 @@ const EditBook = () => {
           />
           <TextField
             required
-            id="outlined-basic"
             label="Total Units"
             variant="outlined"
             size="medium"
@@ -150,7 +141,6 @@ const EditBook = () => {
         <br />
         <br />
         <TextField
-          id="outlined-multiline-static"
           label="Book Description"
           multiline
           rows={4}

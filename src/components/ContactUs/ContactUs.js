@@ -1,8 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ContactUs.css";
-import { Button, Container, TextField, Typography } from "@material-ui/core";
+import { useSelector, useDispatch } from 'react-redux'
+import { Redirect } from 'react-router';
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import InputLabel from '@material-ui/core/InputLabel';
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import { sendMessage } from '../../redux'
 
 const ContactUs = () => {
+  const [message, setMessage] = useState('');
+  const [menuItem, setMenuItem] = useState('Request');
+  const [messageError, setMessageError] = useState('');
+  
+  const auth = useSelector(state=> state.firebase.auth);
+  const dispatch = useDispatch();
+
+      
+  const handleSubmit = () => {
+    setMessageError('');
+
+    if(message.length < 3){
+      setMessageError("Message is required");
+      return
+    }
+    
+    else{
+      setMessage('');
+      dispatch(sendMessage({
+        message_type: menuItem,
+        message_body: message,
+        sender_email: auth.email,
+        sent_on: new Date()  
+      }
+      ))      
+    }
+  }
+
+  if(!auth.uid) return <Redirect to="/login"/>
+
   return (
     <Container className="contact-us-container">
       <div className="contact-us-banner">
@@ -12,40 +51,49 @@ const ContactUs = () => {
       </div>
 
       <div className="contact-us-body">
-        <TextField
-          required
-          id="outlined-basic"
-          label="Your Name"
-          variant="outlined"
-          fullWidth
-        />
-        <Typography color="error" align="left">
-          Name can't be empty
-        </Typography>
-        <br />
-        <TextField
-          required
-          id="outlined-basic"
+      <TextField
           label="Your Email"
-          variant="outlined"
+          InputProps={{
+            readOnly: true,
+          }}
+          variant="filled"
+          size="medium"
+          value = {auth ? auth.email : " "}
           fullWidth
         />
-        <Typography color="error" align="left">
-          Email can't be empty
-        </Typography>
+        <br />
+        <br />
+      <InputLabel>Reason</InputLabel>
+        <Select
+          value={menuItem}
+          onChange={(e)=>setMenuItem(e.target.value)}
+          fullWidth
+        >
+          <MenuItem value={"Request"}>Request</MenuItem>
+          <MenuItem value={"Suggestion"}>Suggestion</MenuItem>
+          <MenuItem value={"Information"}>Information</MenuItem>
+        </Select>
+        <br />
         <br />
         <TextField
-          id="outlined-multiline-static"
           label="Your Message"
-          multiline
-          rows={4}
+          rows={6}
           placeholder="Got any Requests or Suggestions let us know....."
           variant="outlined"
+          value={message}
+          onClick={() => setMessageError('')}
+          onChange={(e) => setMessage(e.target.value)}
+          multiline
           fullWidth
         />
         <br />
+          <Typography color="error" align="left">
+            {messageError}
+          </Typography>
         <br />
-        <Button variant="contained" color="primary" fullWidth size="large">
+        <Button variant="contained" color="primary" fullWidth size="large"
+          onClick={handleSubmit}
+          >
           SUBMIT
         </Button>
       </div>

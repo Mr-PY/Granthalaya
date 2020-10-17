@@ -1,0 +1,212 @@
+.profile-wrapper {
+  position: absolute;
+  top: 80px;
+  width: 100vw;
+  margin: 0 auto;
+}
+.profile-container {
+  padding: 1em 0;
+}
+.details-block {
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas:
+    "avatar avatar"
+    "details details"
+    "pswd-btn edit-btn";
+  gap: 1em;
+  text-align: center;
+  justify-content: center;
+}
+.avatar {
+  width: 100%;
+  grid-area: avatar;
+  display: flex;
+  justify-content: center;
+}
+.details {
+  grid-area: details;
+}
+.pswd-btn *,
+.edit-btn * {
+  /* padding: 1em; */
+  font-size: 0.8em;
+}
+
+.pswd-btn {
+  grid-area: pswd-btn;
+}
+.edit-btn {
+  grid-area: edit-btn;
+}
+.edit-details-container {
+  width: 100%;
+}
+.edit-details-box {
+  border-radius: 0.5em;
+  margin: 0;
+  width: 100%;
+  height: 75vh;
+  /* background: #000; */
+}
+.edit-details-block {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 2em;
+}
+
+.details-edit-btn,
+.details-submit-btn {
+  width: 50%;
+  transform: translateX(50%);
+}
+
+.change-password-box {
+  border-radius: 0.5em;
+  margin: 0 auto;
+  width: 100%;
+  height: 60vh;
+  background: #efefef;
+}
+.change-password-block {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding-top: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 2em;
+}
+.change-submit-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.change-password-btn {
+  width: 80%;
+}
+/* Reserved Books */
+
+.profile-books {
+  padding-top: 1em;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.profile-book-card {
+  /* display: block; */
+  padding: 0 1em;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+.profile-book-corner-stick {
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: "";
+  width: 0.6em;
+  height: 100%;
+}
+.red {
+  background: #ff1a09;
+}
+.green {
+  background: #26a69a;
+}
+
+.profile-book-content {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: stretch;
+}
+.profile-book-img {
+  max-width: 80px;
+  height: 100px;
+  border-radius: 0 5px 5px 0;
+  box-shadow: 4px 2px 5px rgba(46, 46, 46, 0.506),
+    8px 4px 10px rgba(46, 46, 46, 0.308);
+}
+.profile-book-img img {
+  width: 100%;
+  max-height: 100%;
+}
+.profile-book-details {
+  padding: 5px 0 0;
+}
+.profile-book-btns {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  max-width: 100%;
+  padding-bottom: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+.profile-book-btns * {
+  height: 100%;
+  width: 100%;
+}
+
+@media screen and (min-width: 960px) {
+  .details-block {
+    width: 80%;
+    padding: 1em 0;
+    grid-template-areas:
+      "avatar details . . . . edit-btn"
+      "avatar details . . . . pswd-btn";
+    text-align: left;
+    justify-content: space-between;
+  }
+  .edit-btn *,
+  .pswd-btn * {
+    font-size: 1em;
+  }
+
+  .edit-details-block {
+    width: 80%;
+  }
+
+  .change-password-box {
+    width: 30vw;
+  }
+  .change-password-block {
+    width: 80%;
+  }
+  .change-password-btn {
+    width: 60%;
+  }
+
+  /* Reserved Books */
+
+  .profile-books {
+    width: 80%;
+  }
+
+  .profile-book-content {
+    display: flex;
+    gap: 1.5em;
+  }
+}

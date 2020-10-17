@@ -5,7 +5,6 @@ import ReplyMessage from "./ReplyMessage";
 
 const LibrarianMessages = () => {
   const [reply, setReply] = useState(false);
-  console.log(`Messages: ${reply}`);
   return (
     <div className="librarian-messages">
       {reply ? <ReplyMessage reply={reply} setReply={setReply} /> : ""}

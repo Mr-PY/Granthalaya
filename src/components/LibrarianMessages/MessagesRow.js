@@ -11,7 +11,7 @@ import TelegramIcon from "@material-ui/icons/Telegram";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 
-const MessagesRow = ({ row, reply, setReply }) => {
+const MessagesRow = ({ message, reply, setReply }) => {
   const [open, setOpen] = useState(false);
   const classes = makeStyles({
     root: {
@@ -23,7 +23,6 @@ const MessagesRow = ({ row, reply, setReply }) => {
 
   return (
     <>
-      {console.log(`MessagesRow: ${reply}`)}
       <TableRow className={classes.root}>
         <TableCell style={{ width: 30 }}>
           <IconButton
@@ -40,11 +39,11 @@ const MessagesRow = ({ row, reply, setReply }) => {
           align="right"
           style={{ width: 50 }}
         >
-          {row.messageId}
+          {message.id}
         </TableCell>
-        <TableCell style={{ width: 200 }}>{row.senderName}</TableCell>
-        <TableCell style={{ width: 200 }}>{row.senderEmail}</TableCell>
-        <TableCell style={{ width: 100 }}>{row.messageDate}</TableCell>
+        <TableCell style={{ width: 200 }}>{message.sender_name}</TableCell>
+        <TableCell style={{ width: 200 }}>{message.sender_email}</TableCell>
+        <TableCell style={{ width: 100 }}>{message.sent_on}</TableCell>
         <TableCell style={{ width: 50 }}>
           <Button
             variant="contained"
@@ -64,7 +63,7 @@ const MessagesRow = ({ row, reply, setReply }) => {
               <Typography variant="h6" gutterBottom component="div">
                 <u>Message</u>
               </Typography>
-              <Typography>{row.messageBody}</Typography>
+              <Typography>{message.message_body}</Typography>
             </Box>
           </Collapse>
         </TableCell>

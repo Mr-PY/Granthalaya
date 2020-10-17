@@ -8,6 +8,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import CommentIcon from "@material-ui/icons/Comment";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import BookIcon from '@material-ui/icons/Book';
 import CloseIcon from "@material-ui/icons/Close";
 import MenuIcon from "@material-ui/icons/Menu";
 
@@ -25,7 +26,7 @@ const LibrarianNavbar = ({ selected, setSelected }) => {
             <img
               width="32px"
               height="32px"
-              src={require("../../assets/logo.png")}
+              src="/assets/images/logo.png"
               alt="Logo"
             />
             <Typography color="initial" variant="h6">
@@ -52,7 +53,10 @@ const LibrarianNavbar = ({ selected, setSelected }) => {
               }
               onClick={() => handleClick("users")}
             >
-              <PersonIcon /> &nbsp;&nbsp; Users
+              <PersonIcon /> &nbsp;&nbsp;{
+                selected === "users" ?
+                'Users' : ''
+              }  
             </li>
             <li
               className={
@@ -62,7 +66,23 @@ const LibrarianNavbar = ({ selected, setSelected }) => {
               }
               onClick={() => handleClick("books")}
             >
-              <MenuBookIcon /> &nbsp;&nbsp; Books
+              <MenuBookIcon /> &nbsp;&nbsp;{
+                selected === "books" ?
+                'Books' : ''
+              }  
+            </li>
+            <li
+              className={
+                selected === "reservations"
+                  ? "librarian-nav-item link-active"
+                  : "librarian-nav-item"
+              }
+              onClick={() => handleClick("reservations")}
+            >
+              <BookIcon /> &nbsp;&nbsp;{
+                selected === "reservations" ?
+                'Reservations' : ''
+              } 
             </li>
             <li
               className={
@@ -72,11 +92,18 @@ const LibrarianNavbar = ({ selected, setSelected }) => {
               }
               onClick={() => handleClick("messages")}
             >
-              <CommentIcon /> &nbsp;&nbsp; Messages
+              <CommentIcon /> &nbsp;&nbsp;{
+                selected === "messages" ?
+                ' Messages' : ''
+              }
+                
             </li>
             <li className="nav-item">
               <Link to="/" className="nav-links">
-                <HomeIcon /> &nbsp; Go Home
+                <HomeIcon /> &nbsp;{
+                selected === "home" ?
+                'Home' : ''
+              }  
               </Link>
             </li>
             <span className="librarian-logout-btn-block">

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from 'react-redux';
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -9,97 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import UserRow from "./UserRow";
-
-function createData(
-  userId,
-  userName,
-  userEmail,
-  userPhone,
-  booksBorrowed,
-  borrowedBooksDetails
-) {
-  return {
-    userId,
-    userName,
-    userEmail,
-    userPhone,
-    booksBorrowed,
-    borrowedBooksDetails,
-  };
-}
-
-const rows = [
-  createData(1, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-  createData(2, "Pranay Prasad", "Pranayprasad@gmail.com", 9030503750, 3, [
-    { id: 1, name: "Advanced Java", date: "2020-01-12", daysLeft: 5 },
-    { id: 2, name: "Python Programming", date: "2020-06-15", daysLeft: 25 },
-    { id: 3, name: "C#", date: "2020-08-21", daysLeft: 12 },
-  ]),
-];
+import { firestoreConnect } from 'react-redux-firebase';
 
 const useStyles = makeStyles({
   root: {
@@ -111,6 +22,7 @@ const useStyles = makeStyles({
 });
 
 const LibrarianUsersTable = () => {
+  const users = useSelector(state => state.firestore.ordered.users);
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -144,8 +56,8 @@ const LibrarianUsersTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <UserRow key={row.userId} row={row} />
+            {users && users.map((user) => (
+              <UserRow key={user.id} user={user} />
             ))}
           </TableBody>
         </Table>
@@ -154,7 +66,7 @@ const LibrarianUsersTable = () => {
         style={{ width: "100%" }}
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={users ? users.length : 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
@@ -164,4 +76,9 @@ const LibrarianUsersTable = () => {
   );
 };
 
-export default LibrarianUsersTable;
+
+export default firestoreConnect(
+  [
+    {collection: 'users'}
+  ]
+  )(LibrarianUsersTable);

@@ -22,7 +22,6 @@ const DeleteBook = () => {
         <br />
         <div className="input-fields-arranger">
           <TextField
-            id="outlined-basic"
             label="Book Id"
             variant="outlined"
             size="medium"
@@ -41,8 +40,7 @@ const DeleteBook = () => {
         <br />
         <div className="input-fields-arranger">
           <TextField
-            id="filled-read-only-input"
-            label="Book Name"
+            label="Book Title"
             defaultValue="Hello World"
             InputProps={{
               readOnly: true,
@@ -52,7 +50,6 @@ const DeleteBook = () => {
             fullWidth
           />
           <TextField
-            id="filled-read-only-input"
             label="Author"
             defaultValue="Hello World"
             InputProps={{

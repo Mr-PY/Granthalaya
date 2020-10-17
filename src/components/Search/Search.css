@@ -1,16 +1,22 @@
 .search-container {
-  background: #ccc;
+  background: #1582ff;
   position: relative;
-  width: 100vw;
+  width: 100%;
   top: 80px;
-  height: 100px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
 }
 .search-field {
-  background: #555;
+  background: #0d5ab3;
   border-radius: 0.5em;
   width: 80vw;
+}
+
+@media screen and (min-width: 960px) {
+  .search-container {
+    height: 100px;
+  }
 }

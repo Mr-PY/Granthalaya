@@ -10,7 +10,7 @@
     flex-direction: column;
   }
   .librarian-table-wrapper {
-    width: 100vw;
+    /* width: 100vw; */
     margin: 0;
   }
 }

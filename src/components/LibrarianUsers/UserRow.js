@@ -14,8 +14,7 @@ import TelegramIcon from "@material-ui/icons/Telegram";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 
-const UserRow = (props) => {
-  const { row } = props;
+const UserRow = ({user}) => {
   const [open, setOpen] = useState(false);
   const classes = makeStyles({
     root: {
@@ -43,13 +42,13 @@ const UserRow = (props) => {
           align="right"
           style={{ width: 50 }}
         >
-          {row.userId}
+          {user.user_id}
         </TableCell>
-        <TableCell style={{ width: 200 }}>{row.userName}</TableCell>
-        <TableCell style={{ width: 200 }}>{row.userEmail}</TableCell>
-        <TableCell style={{ width: 100 }}>{row.userPhone}</TableCell>
+        <TableCell style={{ width: 200 }}>{user.user_name}</TableCell>
+        <TableCell style={{ width: 200 }}>{user.user_email}</TableCell>
+        <TableCell style={{ width: 100 }}>{user.user_phone}</TableCell>
         <TableCell align="right" style={{ width: 50 }}>
-          {row.booksBorrowed}
+          {user.borrowed_list.length}
         </TableCell>
         <TableCell style={{ width: 50 }}>
           <Button
@@ -82,17 +81,17 @@ const UserRow = (props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.borrowedBooksDetails.map((borrowedBooksRow) => (
-                    <TableRow key={borrowedBooksRow.date}>
+                  {user.borrowed_list.map((borrowed_book) => (
+                    <TableRow key={borrowed_book.book_id}>
                       <TableCell component="th" scope="row">
-                        {borrowedBooksRow.id}
+                        {borrowed_book.book_id}
                       </TableCell>
-                      <TableCell>{borrowedBooksRow.name}</TableCell>
+                      <TableCell>{borrowed_book.book_title}</TableCell>
                       <TableCell align="right">
-                        {borrowedBooksRow.date}
+                        {borrowed_book.borrowed_on}
                       </TableCell>
                       <TableCell align="right">
-                        {borrowedBooksRow.daysLeft}
+                        {borrowed_book.days_left}
                       </TableCell>
                     </TableRow>
                   ))}

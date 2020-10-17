@@ -1,13 +1,32 @@
 import React from "react";
 import "./BookDetails.css";
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router';
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
+import {firestoreConnect} from 'react-redux-firebase';
+import handleBorrow from '../../helpers/userBookBorrowHandler';
+import handleReserve from '../../helpers/userBookReserveHandler';
 
-const BookDetails = () => {
+const BookDetails = (props) => {
+  const id = props.match.params.id;
+  const auth = useSelector(state=> state.firebase.auth);
+  const bookDetails = useSelector(state => {
+    const books = state.firestore.data.books;
+    const data = books ? books[id] : null
+    return data
+  });
+  const profile = useSelector(state=> state.firebase.profile);
+  const userBorrowedList = profile.borrowed_list;
+  const userReservedList = profile.reserved_list;
   const history = useHistory();
+  const dispatch = useDispatch();
+  
+  if(!auth.uid) return <Redirect to="/login"/>
+  
   return (
     <div className="book-details-wrapper">
       <Container className="book-details-container">
@@ -26,25 +45,27 @@ const BookDetails = () => {
 
         <br />
         <div className="book-grid-desktop">
-          <div className="book-img-container"></div>
+          <div className="book-img-container">
+            <img src={bookDetails?bookDetails.book_image:''} alt={bookDetails?bookDetails.book_title:''}/>
+          </div>
           <div className="where-to-find">
             <Typography variant="h6" color="textPrimary">
-              You can find it here:
+              Find it here:
             </Typography>
             <Typography variant="subtitle1" color="textSecondary" component="p">
-              Section: <b>Computer Science</b>
+              Section: &nbsp;&nbsp;<b>{bookDetails ? bookDetails.book_department : 'Department'}</b>
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Rack: <b>2</b>
+              Rack: &nbsp;&nbsp;<b>{bookDetails ? bookDetails.book_rack : 'Rack'}</b>
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Row: <b>3</b>
+              Row: &nbsp;&nbsp;<b>{bookDetails ? bookDetails.book_row : '0'}</b>
             </Typography>
           </div>
 
           <div className="popup-book-details">
             <Typography className="book-title" color="textPrimary" variant="h5">
-              <b>ADVANCED JAVA PROGRAMMING</b>
+              <b>{bookDetails ? bookDetails.book_title : 'Title'}</b>
             </Typography>
             <Typography
               className="book-author"
@@ -52,7 +73,7 @@ const BookDetails = () => {
               color="textSecondary"
               component="p"
             >
-              George F Luger
+              {bookDetails ? bookDetails.book_author : 'Author'}
             </Typography>
             <Typography
               className="available"
@@ -60,7 +81,7 @@ const BookDetails = () => {
               color="textSecondary"
               component="p"
             >
-              Available Units: 5
+              Available Units: {bookDetails ? bookDetails.book_available : "0"}
             </Typography>
           </div>
           <div className="book-description">
@@ -71,127 +92,30 @@ const BookDetails = () => {
             </Typography>
             <br />
             <Typography variant="body1" color="textSecondary" component="p">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem
-              porro itaque nisi omnis at ea repellat nihil et eveniet ratione
-              voluptatum nesciunt culpa, dolore aliquid, dignissimos autem velit
-              laboriosam mollitia. Dolor quae accusamus minima, libero quos
-              alias repellat voluptas magnam tempora ducimus? In, consectetur
-              libero animi est quam, placeat assumenda laborum harum velit
-              similique molestias, vitae rem nihil ea vero. Sint perspiciatis
-              aliquid placeat aperiam pariatur iusto! Praesentium cumque quos,
-              quibusdam expedita laborum nihil dolorem maiores sunt magnam qui
-              vel voluptatem fugit tempore. Ipsum impedit, consequatur tempora
-              placeat eos nobis. Distinctio tempora architecto sit beatae in
-              temporibus, quaerat, quo eum laborum voluptatibus libero omnis
-              sint, pariatur minus at. Quos corrupti veritatis labore amet
-              excepturi perspiciatis deserunt, officia quisquam necessitatibus
-              consequatur! A dolorum id quibusdam similique numquam autem
-              impedit omnis, sunt quisquam sint optio inventore. Animi, fugiat
-              explicabo earum, necessitatibus dolor suscipit quos aut harum,
-              eaque dolorem officiis accusantium obcaecati optio! Nihil
-              repudiandae impedit reprehenderit tenetur optio expedita
-              laboriosam ratione dolorem! Quasi dolorum harum sequi beatae
-              ducimus, aspernatur quo maiores, optio provident quos nobis saepe
-              nesciunt aut quod minus? Aperiam, velit! Lorem ipsum dolor sit,
-              amet consectetur adipisicing elit. Dolorem porro itaque nisi omnis
-              at ea repellat nihil et eveniet ratione voluptatum nesciunt culpa,
-              dolore aliquid, dignissimos autem velit laboriosam mollitia. Dolor
-              quae accusamus minima, libero quos alias repellat voluptas magnam
-              tempora ducimus? In, consectetur libero animi est quam, placeat
-              assumenda laborum harum velit similique molestias, vitae rem nihil
-              ea vero. Sint perspiciatis aliquid placeat aperiam pariatur iusto!
-              Praesentium cumque quos, quibusdam expedita laborum nihil dolorem
-              maiores sunt magnam qui vel voluptatem fugit tempore. Ipsum
-              impedit, consequatur tempora placeat eos nobis. Distinctio tempora
-              architecto sit beatae in temporibus, quaerat, quo eum laborum
-              voluptatibus libero omnis sint, pariatur minus at. Quos corrupti
-              veritatis labore amet excepturi perspiciatis deserunt, officia
-              quisquam necessitatibus consequatur! A dolorum id quibusdam
-              similique numquam autem impedit omnis, sunt quisquam sint optio
-              inventore. Animi, fugiat explicabo earum, necessitatibus dolor
-              suscipit quos aut harum, eaque dolorem officiis accusantium
-              obcaecati optio! Nihil repudiandae impedit reprehenderit tenetur
-              optio expedita laboriosam ratione dolorem! Quasi dolorum harum
-              sequi beatae ducimus, aspernatur quo maiores, optio provident quos
-              nobis saepe nesciunt aut quod minus? Aperiam, velit! Lorem ipsum
-              dolor sit, amet consectetur adipisicing elit. Dolorem porro itaque
-              nisi omnis at ea repellat nihil et eveniet ratione voluptatum
-              nesciunt culpa, dolore aliquid, dignissimos autem velit laboriosam
-              mollitia. Dolor quae accusamus minima, libero quos alias repellat
-              voluptas magnam tempora ducimus? In, consectetur libero animi est
-              quam, placeat assumenda laborum harum velit similique molestias,
-              vitae rem nihil ea vero. Sint perspiciatis aliquid placeat aperiam
-              pariatur iusto! Praesentium cumque quos, quibusdam expedita
-              laborum nihil dolorem maiores sunt magnam qui vel voluptatem fugit
-              tempore. Ipsum impedit, consequatur tempora placeat eos nobis.
-              Distinctio tempora architecto sit beatae in temporibus, quaerat,
-              quo eum laborum voluptatibus libero omnis sint, pariatur minus at.
-              Quos corrupti veritatis labore amet excepturi perspiciatis
-              deserunt, officia quisquam necessitatibus consequatur! A dolorum
-              id quibusdam similique numquam autem impedit omnis, sunt quisquam
-              sint optio inventore. Animi, fugiat explicabo earum,
-              necessitatibus dolor suscipit quos aut harum, eaque dolorem
-              officiis accusantium obcaecati optio! Nihil repudiandae impedit
-              reprehenderit tenetur optio expedita laboriosam ratione dolorem!
-              Quasi dolorum harum sequi beatae ducimus, aspernatur quo maiores,
-              optio provident quos nobis saepe nesciunt aut quod minus? Aperiam,
-              velit! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Dolorem porro itaque nisi omnis at ea repellat nihil et eveniet
-              ratione voluptatum nesciunt culpa, dolore aliquid, dignissimos
-              autem velit laboriosam mollitia. Dolor quae accusamus minima,
-              libero quos alias repellat voluptas magnam tempora ducimus? In,
-              consectetur libero animi est quam, placeat assumenda laborum harum
-              velit similique molestias, vitae rem nihil ea vero. Sint
-              perspiciatis aliquid placeat aperiam pariatur iusto! Praesentium
-              cumque quos, quibusdam expedita laborum nihil dolorem maiores sunt
-              magnam qui vel voluptatem fugit tempore. Ipsum impedit,
-              consequatur tempora placeat eos nobis. Distinctio tempora
-              architecto sit beatae in temporibus, quaerat, quo eum laborum
-              voluptatibus libero omnis sint, pariatur minus at. Quos corrupti
-              veritatis labore amet excepturi perspiciatis deserunt, officia
-              quisquam necessitatibus consequatur! A dolorum id quibusdam
-              similique numquam autem impedit omnis, sunt quisquam sint optio
-              inventore. Animi, fugiat explicabo earum, necessitatibus dolor
-              suscipit quos aut harum, eaque dolorem officiis accusantium
-              obcaecati optio! Nihil repudiandae impedit reprehenderit tenetur
-              optio expedita laboriosam ratione dolorem! Quasi dolorum harum
-              sequi beatae ducimus, aspernatur quo maiores, optio provident quos
-              nobis saepe nesciunt aut quod minus? Aperiam, velit! Lorem ipsum
-              dolor sit, amet consectetur adipisicing elit. Dolorem porro itaque
-              nisi omnis at ea repellat nihil et eveniet ratione voluptatum
-              nesciunt culpa, dolore aliquid, dignissimos autem velit laboriosam
-              mollitia. Dolor quae accusamus minima, libero quos alias repellat
-              voluptas magnam tempora ducimus? In, consectetur libero animi est
-              quam, placeat assumenda laborum harum velit similique molestias,
-              vitae rem nihil ea vero. Sint perspiciatis aliquid placeat aperiam
-              pariatur iusto! Praesentium cumque quos, quibusdam expedita
-              laborum nihil dolorem maiores sunt magnam qui vel voluptatem fugit
-              tempore. Ipsum impedit, consequatur tempora placeat eos nobis.
-              Distinctio tempora architecto sit beatae in temporibus, quaerat,
-              quo eum laborum voluptatibus libero omnis sint, pariatur minus at.
-              Quos corrupti veritatis labore amet excepturi perspiciatis
-              deserunt, officia quisquam necessitatibus consequatur! A dolorum
-              id quibusdam similique numquam autem impedit omnis, sunt quisquam
-              sint optio inventore. Animi, fugiat explicabo earum,
-              necessitatibus dolor suscipit quos aut harum, eaque dolorem
-              officiis accusantium obcaecati optio! Nihil repudiandae impedit
-              reprehenderit tenetur optio expedita laboriosam ratione dolorem!
-              Quasi dolorum harum sequi beatae ducimus, aspernatur quo maiores,
-              optio provident quos nobis saepe nesciunt aut quod minus? Aperiam,
-              velit!
+              {bookDetails ? bookDetails.book_description : "Description"}
             </Typography>
+            <br/>
           </div>
-          <div className="borrow-btn">
-            <Link to="#" className="link-tag">
+          <div className="btns">
+            <Button
+                variant="contained"
+                size="large"
+                color="secondary"
+                fullWidth
+                onClick={() => handleReserve(id, bookDetails, userBorrowedList, userReservedList, auth.uid, dispatch)}
+              >
+                RESERVE
+              </Button>
               <Button
                 variant="contained"
                 size="large"
                 color="primary"
                 fullWidth
+                onClick={() => handleBorrow(id, bookDetails, userBorrowedList, userReservedList, auth.uid, dispatch)}
               >
                 BORROW
               </Button>
-            </Link>
+            
           </div>
         </div>
       </Container>
@@ -199,4 +123,8 @@ const BookDetails = () => {
   );
 };
 
-export default BookDetails;
+export default firestoreConnect(
+  [
+    {collection: 'books'}
+  ]
+  )(BookDetails);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -10,13 +11,27 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import EmailIcon from "@material-ui/icons/Email";
 import PortraitIcon from "@material-ui/icons/Portrait";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import { logOut } from '../../redux'
 
 const Navbar = ({ active }) => {
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
+
+  const auth = useSelector(state => state.firebase.auth); 
+  const profile = useSelector(state=> state.firebase.profile);
+
+  const dispatch = useDispatch()
+
   const closeMobileMenu = () => {
     setClick(false);
   };
+
+  const handleLogout = () =>{
+    dispatch(logOut())
+  }
+
+  if (!auth.uid) return <Redirect to='/login' /> 
+
   return (
     <>
       <nav className="navbar">
@@ -25,7 +40,7 @@ const Navbar = ({ active }) => {
             <img
               width="32px"
               height="32px"
-              src={require("../../assets/logo.png")}
+              src="/assets/images/logo.png"
               alt="Logo"
             />
             <Typography color="initial" variant="h6">
@@ -34,9 +49,9 @@ const Navbar = ({ active }) => {
           </Link>
           <div className="menu-icon" onClick={handleClick}>
             {click ? (
-              <CloseIcon fontSize="large" />
+              <CloseIcon fontSize="large" style={{backgroundColor: "#efefef"}}/>
             ) : (
-              <MenuIcon fontSize="large" />
+              <MenuIcon fontSize="large" style={{color: "#eee"}}/>
             )}
           </div>
           <ul className={click ? "nav-menu active" : "nav-menu"}>
@@ -74,17 +89,19 @@ const Navbar = ({ active }) => {
                 &nbsp; Contact Us
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                to="/librarian"
-                className={
-                  active === "librarian" ? "nav-links link-active" : "nav-links"
-                }
-              >
-                <PortraitIcon />
-                &nbsp; Librarian
-              </Link>
-            </li>
+            { profile.is_admin ? 
+              (
+                <li className="nav-item">
+                  <Link to="/librarian" 
+                        className={ active === "librarian" ? "nav-links link-active" : "nav-links"}
+                        >
+                    <PortraitIcon />
+                    &nbsp; Librarian
+                  </Link>
+                </li> 
+              ) : <></>
+              
+            }
             <span className="logout-btn-block">
               <Button
                 className="logout-btn"
@@ -92,8 +109,7 @@ const Navbar = ({ active }) => {
                 color="secondary"
                 fullWidth
                 size="large"
-                to="/login"
-                component={Link}
+                onClick = {handleLogout}
               >
                 <PowerSettingsNewIcon />
                 &nbsp; LOGOUT

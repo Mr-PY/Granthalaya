@@ -1,66 +1,116 @@
-import React from "react";
+import React, {useState} from "react";
 import "./ForgotPassword.css";
-import { Link } from "react-router-dom";
-import {
-  Box,
-  Container,
-  TextField,
-  Button,
-  Typography,
-} from "@material-ui/core";
+import { useSelector, useDispatch } from 'react-redux'
+import { Link, Redirect } from "react-router-dom";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import { forgotPassword } from '../../redux'
 
 const ForgotPassword = () => {
-  return (
-    <Container className="forgot-password-container" maxWidth="xs">
-      <Box
-        boxShadow="5"
-        textAlign="center"
-        padding="2em"
-        mt="1em"
-        borderRadius="0.5em"
-        style={{ backgroundColor: "#efefef" }}
-      >
-        <img
-          className="logo-img"
-          src={require("../../assets/logo.png")}
-          alt="Logo"
-        />
-        <Typography color="primary" variant="h4">
-          Granthalaya
-        </Typography>
-        <br />
-        <Typography color="secondary" st variant="h5">
-          Forgot your password?
-        </Typography>
-        <br />
-        <Typography color="#333" variant="body1">
-          To reset password, enter your email. If your account exists, we will
-          send you an email with further instructions.
-        </Typography>
-        <br />
-        <br />
-        <TextField
-          required
-          id="outlined-basic"
-          label="Email"
-          variant="outlined"
-          fullWidth
-        />
-        <br />
-        <br />
-        <Button variant="contained" color="primary" fullWidth size="large">
-          RESET PASSWORD
-        </Button>
-        <br />
-        <br />
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const auth = useSelector(state=> state.firebase.auth)
+  const dispatch = useDispatch()
+  
+  const clearInputs = () =>{
+    setEmail('');
+  }
+  
+  const clearErrors = () =>{
+    setEmailError('');
+  }
 
-        <Typography color="secondary">
-          <Link to="/login" className="link-tag">
-            BACK
-          </Link>
-        </Typography>
-      </Box>
-    </Container>
+  const handleSubmit = () => {
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+    
+    clearErrors();
+
+    if(email.length===0){
+      clearInputs();
+      setEmailError("Email can't be empty");
+      return
+    }
+    if(!email.match(emailPattern)){
+      clearInputs()
+      setEmailError("Invalid Email");
+      return;
+    }
+    else{
+      console.log("sending Email");
+      clearInputs()
+      dispatch(forgotPassword({email}))
+    }
+  }
+
+  if (auth.uid) return <Redirect to='/' />
+
+  return (
+    <>
+      <div className="forgot-page-bg"></div>  
+      <Container className="forgot-password-container" maxWidth="xs">
+        <Box
+          boxShadow="5"
+          textAlign="center"
+          padding="2em"
+          mt="1em"
+          borderRadius="0.5em"
+          style={{ backgroundColor: "#efefef" }}
+          >
+          <img
+            className="logo-img"
+            src="/assets/images/logo.png"
+            alt="Logo"
+            />
+          <Typography color="primary" variant="h4">
+            Granthalaya
+          </Typography>
+          <br />
+          <Typography color="secondary" variant="h5">
+            Forgot your password?
+          </Typography>
+          <br />
+          <Typography variant="body1" style={{ color: "#222" }}>
+            To reset password, enter your email. If your account exists, we will
+            send you an email with further instructions.
+          </Typography>
+          <br />
+          <br />
+          <TextField
+            autoFocus
+            required            
+            label="Email"
+            variant="outlined"
+            value = {email}
+            onClick={() => setEmailError('')}
+            onChange={(e) =>setEmail(e.target.value)}
+            
+            fullWidth
+            />
+          <br />
+          <br/>
+          <Typography color="error" align="center">
+            {emailError}
+          </Typography>
+          <br />
+          <br />
+          <Button variant="contained" color="primary" fullWidth size="large" onClick={handleSubmit}>
+            RESET PASSWORD
+          </Button>
+          <br />
+          <br />
+
+          <Typography color="secondary">
+            <Link to="/login" className="link-tag">
+              BACK
+            </Link>
+          </Typography>
+        </Box>
+      </Container>
+    </>
   );
 };
 

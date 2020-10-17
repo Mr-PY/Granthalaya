@@ -1,11 +1,39 @@
-import React from "react";
+import React, {useState} from "react";
+import { useDispatch} from "react-redux";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
+import {firestoreConnect} from 'react-redux-firebase';
+import handleAddUserSubmit from '../../helpers/userFormHandler'
 
 const AddUser = () => {
+  // const users = useSelector(state=>{
+  //   return state.firestore.ordered.users
+  // }); 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const dispatch = useDispatch();
+  
+  const clearInputs = () =>{
+    setName('');
+    setEmail('');
+    setPhone('');
+  }
+
+  
+  const clearErrors = () =>{
+    setNameError('');
+    setEmailError('');
+    setPhoneError('');
+  }
+
   return (
     <Container maxWidth="md">
       <Box
@@ -22,36 +50,56 @@ const AddUser = () => {
         <div className="input-fields-arranger">
           <TextField
             required
-            id="outlined-basic"
             label="Full Name"
             variant="outlined"
             size="medium"
+            value={name}
+            onClick={clearErrors}
+            onChange={(e)=>setName(e.target.value)}
             fullWidth
           />
           <TextField
             required
-            id="outlined-basic"
             label="Phone"
             type="tel"
             variant="outlined"
             size="medium"
+            value={phone}
+            onClick={clearErrors}
+            onChange={(e)=>setPhone(e.target.value)}
             fullWidth
           />
+          
+          
         </div>
-        <br />
+        <br/>
+        <div className="input-fields-arranger">
+
+        <Typography color="error" align="left">
+            {nameError}
+          </Typography>
+          <Typography color="error" align="left">
+            {phoneError}
+          </Typography>
+        </div>
         <br />
         <div className="input-fields-arranger">
           <TextField
             required
-            id="outlined-basic"
             label="Email"
             type="email"
             variant="outlined"
             size="medium"
+            value={email}
+            onClick={clearErrors}
+            onChange={(e)=>setEmail(e.target.value)}
             fullWidth
-          />
+          /> 
         </div>
-        <br />
+        <br/>
+        <Typography color="error" align="center" >
+            {emailError}
+          </Typography>
         <br />
         <div className="button-input-fields-arranger">
           <Button
@@ -59,10 +107,14 @@ const AddUser = () => {
             color="primary"
             size="large"
             startIcon={<AddIcon />}
+            onClick={() => handleAddUserSubmit(
+              name, email, phone, 
+              setNameError, setEmailError, setPhoneError, 
+              dispatch, clearErrors)}
           >
             Add
           </Button>
-          <Button variant="contained" color="secondary" size="large">
+          <Button variant="contained" color="secondary" size="large" onClick={clearInputs}>
             Clear
           </Button>
         </div>
@@ -71,4 +123,8 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default firestoreConnect(
+  [
+    {collection: 'users'}
+  ]
+  )(AddUser);

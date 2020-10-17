@@ -22,7 +22,6 @@ const DeleteUser = () => {
         <br />
         <div className="input-fields-arranger">
           <TextField
-            id="outlined-basic"
             label="User Id"
             variant="outlined"
             size="medium"
@@ -41,7 +40,6 @@ const DeleteUser = () => {
         <br />
         <div className="input-fields-arranger">
           <TextField
-            id="filled-read-only-input"
             label="Full Name"
             defaultValue="Hello World"
             InputProps={{
@@ -52,7 +50,6 @@ const DeleteUser = () => {
             fullWidth
           />
           <TextField
-            id="filled-read-only-input"
             label="Email"
             defaultValue="Hello World"
             InputProps={{
