@@ -21,7 +21,7 @@
     width: 100vw;
     height: 100vh;
     z-index: 0;
-    background: url("/assets/images/bg.jpg") center center;
+    background: url("/assets/images/loginPage.jpg") center center;
     background-size: cover;
     filter: blur(1px);
   }
