@@ -34,7 +34,7 @@ const Login = () => {
   const handleSubmit = () => {
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
-    setLoading(true)
+    
     clearErrors();
 
     if(email.length===0){
@@ -53,6 +53,7 @@ const Login = () => {
       return;
     }
     else{
+      setLoading(true)
       clearInputs()
       dispatch(logIn({email, password, setLoading}))
     }

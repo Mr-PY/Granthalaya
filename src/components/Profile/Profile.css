@@ -209,4 +209,7 @@
     display: flex;
     gap: 1.5em;
   }
+  .profile-book-details {
+    width: 65%;
+  }
 }

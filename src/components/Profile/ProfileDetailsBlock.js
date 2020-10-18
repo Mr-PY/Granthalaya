@@ -43,12 +43,6 @@ const useStyles = makeStyles((theme) => ({
         padding: 0,
         margin: 0,
         width: '90vw',
-        
-        [theme.breakpoints.up('md')]:{
-
-
-        }
-
     },
     
   })
@@ -166,7 +160,8 @@ const ProfileDetailsBlock = (props) => {
     return (
         <div className="details-block">
             <div className="avatar">
-                <Avatar alt="Profile Image" src={displayImage} className = {classes.avatar}>
+                <Avatar alt="Profile Image" src={displayImage} 
+                className = {url ? classes.avatarImage : classes.avatar }>
                     {initials && initials}
                 </Avatar>
             </div>

@@ -7,6 +7,7 @@ import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { signUp } from '../../redux'
 
 const Signup = () => {
@@ -20,6 +21,7 @@ const Signup = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [loading, setLoading] = useState(false)
 
   const auth = useSelector(state=> state.firebase.auth)
   const authError = useSelector(state=> state.signUp.signUpError)
@@ -95,8 +97,9 @@ const Signup = () => {
       return;
     }
     else{
+      setLoading(true)
       clearInputs()
-      dispatch(signUp({fullName, email, password, phone}))
+      dispatch(signUp({fullName, email, password, phone, setLoading}))
     }
   }
   if(auth.uid) return <Redirect to='/' />
@@ -200,11 +203,13 @@ const Signup = () => {
             {authError}
           </Typography>
           <br />
+          {loading ? <CircularProgress color="secondary"/> : ''}
           <Button 
             variant="contained" 
             color="primary" 
             fullWidth size="large"
-            onClick={handleSubmit}  
+            onClick={handleSubmit} 
+            disabled={loading ? true : false}
           >
             SIGNUP
           </Button>

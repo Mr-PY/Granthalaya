@@ -18,11 +18,13 @@ export const signUp = (newUser) =>{
                 reserved_list: [],
                 user_image: ''
             }).then(() =>{
+                newUser.setLoading(false) 
                 dispatch({type: "SIGNUP_SUCCESS"})
                 dispatch(
                     setSnackbar(true, 'success', 'Welcome to Granthalaya...')
                 )
             }).catch(error=>{
+                    newUser.setLoading(false)
                 dispatch({type: "SIGNUP_ERROR", payload: error})
                 dispatch(
                     setSnackbar(true, 'error', 'Unable to Create account. Try again later.')
