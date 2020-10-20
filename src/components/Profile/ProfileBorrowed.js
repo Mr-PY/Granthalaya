@@ -7,16 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import DoneIcon from '@material-ui/icons/Done';
 import {firestoreConnect} from 'react-redux-firebase';
 import { returnBook } from "../../redux";
+import calculateRemainingTime from '../../helpers/RemainingTimeCalculater'
 
-const calculateRemainingTime = (book, profile) => {
-    if(profile.isLoaded){
-        const borrowDays = 60;
-        const borrowedOnDate =  book.borrowed_on ? book.borrowed_on.seconds * 1000 : 0
-        const timeElapsed = (Date.now() - borrowedOnDate) / (1000 * 60 * 60 * 24)
-        const remainingDays = borrowDays - timeElapsed;
-        return Math.floor(remainingDays)
-    }
-}
 
 const handleBookReturn = (id, profile, book, books, dispatch) => {
     const borrowedList = profile.borrowed_list
@@ -56,7 +48,7 @@ const ProfileBorrowed = ({book, profile}) => {
     return (
         <div>
             <Card className="profile-book-card">
-                <div className={ calculateRemainingTime(book, profile) < 6 ? "profile-book-corner-stick red" : "profile-book-corner-stick green"}> </div>
+                <div className={ calculateRemainingTime(profile, book.borrowed_on, 'borrowed') < 6 ? "profile-book-corner-stick red" : "profile-book-corner-stick green"}> </div>
                 <CardContent className="profile-book-content">
                     <div className="profile-book-img">
                         <img src={book.book_image} alt={book.book_title}/>
@@ -69,7 +61,7 @@ const ProfileBorrowed = ({book, profile}) => {
                             on {new Date(date()).toLocaleDateString("en-gb", options)} 
                         </Typography>
                         <Typography variant="body1" color="textSecondary" component="p">
-                            {`${calculateRemainingTime(book, profile)} Days left`}  
+                            {`${calculateRemainingTime(profile, book.borrowed_on, 'borrowed')} Days left`}   
                         </Typography>
                     </div>
                 </CardContent>

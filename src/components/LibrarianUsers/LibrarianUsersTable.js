@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
 });
 
-const LibrarianUsersTable = () => {
+const LibrarianUsersTable = ({profile}) => {
   const users = useSelector(state => state.firestore.ordered.users);
   const classes = useStyles();
   const [page, setPage] = useState(0);
@@ -47,17 +47,18 @@ const LibrarianUsersTable = () => {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell align="right">Id</TableCell>
-              <TableCell>Full Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell align="right">Books Borrowed</TableCell>
-              <TableCell align="center">Notify?</TableCell>
+              <TableCell align="center">Id</TableCell>
+              <TableCell align="center">Full Name</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center">Phone</TableCell>
+              <TableCell align="right">Reserved</TableCell>
+              <TableCell align="right">Borrowed</TableCell>
+              <TableCell align="center">Joined On</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users && users.map((user) => (
-              <UserRow key={user.id} user={user} />
+              <UserRow key={user.id} user={user} profile={profile}/>
             ))}
           </TableBody>
         </Table>

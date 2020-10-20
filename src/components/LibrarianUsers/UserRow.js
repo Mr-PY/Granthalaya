@@ -13,21 +13,30 @@ import Button from "@material-ui/core/Button";
 import TelegramIcon from "@material-ui/icons/Telegram";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import calculateRemainingTime from '../../helpers/RemainingTimeCalculater'
 
-const UserRow = ({user}) => {
-  const [open, setOpen] = useState(false);
-  const classes = makeStyles({
-    root: {
-      "& > *": {
-        borderBottom: "unset",
-      },
+const useStyles = makeStyles({
+  root: {
+    "& > *": {
+      borderBottom: "unset",
     },
-  });
+  },
+});
+
+const UserRow = ({user, profile}) => {
+
+  const [open, setOpen] = useState(false);
+  const classes = useStyles()
+
+  const getDate = (date) => {
+    const dateInSeconds =  date ? date.seconds * 1000 : 0
+    return dateInSeconds
+  }
 
   return (
     <>
       <TableRow className={classes.root}>
-        <TableCell style={{ width: 30 }}>
+        <TableCell style={{ maxWidth: 30 }}>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -40,25 +49,21 @@ const UserRow = ({user}) => {
           component="th"
           scope="row"
           align="right"
-          style={{ width: 50 }}
+          style={{ minWidth: 200 }}
         >
-          {user.user_id}
+          {user.id}
         </TableCell>
         <TableCell style={{ width: 200 }}>{user.user_name}</TableCell>
         <TableCell style={{ width: 200 }}>{user.user_email}</TableCell>
         <TableCell style={{ width: 100 }}>{user.user_phone}</TableCell>
-        <TableCell align="right" style={{ width: 50 }}>
+        <TableCell align="right" style={{ width: 80 }}>
+          {user.reserved_list.length}
+        </TableCell>
+        <TableCell align="right" style={{ width: 80 }}>
           {user.borrowed_list.length}
         </TableCell>
-        <TableCell style={{ width: 50 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="medium"
-            startIcon={<TelegramIcon />}
-          >
-            Notify
-          </Button>
+        <TableCell align="center" style={{ maxWidth: 150 }}>
+          {new Date(getDate(user.joined_on)).toLocaleDateString("en-gb")}
         </TableCell>
       </TableRow>
       <TableRow>
@@ -67,9 +72,40 @@ const UserRow = ({user}) => {
           colSpan={6}
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
+          <Box margin={2}>
+              <Typography variant="h6" gutterBottom component="div">
+                Reserved Books
+              </Typography>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Slno</TableCell>
+                    <TableCell>Book Title</TableCell>
+                    <TableCell align="right">Reserved On</TableCell>
+                    <TableCell align="right">Time Left</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {user.reserved_list.map((reserved_book) => (
+                    <TableRow key={reserved_book.book_id}>
+                      <TableCell component="th" scope="row">
+                        {reserved_book.book_id}
+                      </TableCell>
+                      <TableCell>{reserved_book.book_title}</TableCell>
+                      <TableCell align="right">
+                        {new Date(getDate(reserved_book.reserved_on)).toLocaleDateString("en-gb")}
+                      </TableCell>
+                      <TableCell align="right">
+                        {calculateRemainingTime(profile, reserved_book.reserved_on, 'reserved')}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
             <Box margin={2}>
               <Typography variant="h6" gutterBottom component="div">
-                <u>Borrowed Books</u>
+                Borrowed Books
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
@@ -88,10 +124,10 @@ const UserRow = ({user}) => {
                       </TableCell>
                       <TableCell>{borrowed_book.book_title}</TableCell>
                       <TableCell align="right">
-                        {borrowed_book.borrowed_on}
+                      {new Date(getDate(borrowed_book.borrowed_on)).toLocaleDateString("en-gb")}
                       </TableCell>
                       <TableCell align="right">
-                        {borrowed_book.days_left}
+                        {calculateRemainingTime(profile, borrowed_book.borrowed_on, 'borrowed')}
                       </TableCell>
                     </TableRow>
                   ))}

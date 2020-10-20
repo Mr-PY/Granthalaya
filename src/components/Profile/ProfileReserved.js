@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {firestoreConnect} from 'react-redux-firebase';
+import calculateRemainingTime from '../../helpers/RemainingTimeCalculater'
 import { removeReservedBook, reservedToBorrowed } from "../../redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,16 +36,6 @@ const useStyles = makeStyles((theme) => ({
     },
   })
 );
-
-const calculateRemainingTime = (book, profile) => {
-    if(profile.isLoaded){
-        const reserveHrs = 24;
-        const ReservedOnDate = book.reserved_on.seconds ? book.reserved_on.seconds * 1000 : 0
-        const timeElapsed = (Date.now() - ReservedOnDate) / (1000 * 60 * 60)
-        const remainingHrs = reserveHrs - timeElapsed
-        return Math.floor(remainingHrs)
-    }
-}
 
 const handleBookBorrow = (id, profile, book, dispatch) => {
     const reservedList = profile.reserved_list
@@ -106,7 +97,7 @@ const ProfileReserved = (props) => {
     return (
         <div>
             <Card className="profile-book-card">
-                <div className={ calculateRemainingTime(book, profile) < 3 ? "profile-book-corner-stick red" : "profile-book-corner-stick green"}> </div>
+                <div className={ calculateRemainingTime(profile, book.reserved_on, 'reserved') < 3 ? "profile-book-corner-stick red" : "profile-book-corner-stick green" }> </div>
                 <CardContent className="profile-book-content">
                     <div className="profile-book-img">
                         <img src={book.book_image} alt={book.book_title}/>
@@ -120,7 +111,7 @@ const ProfileReserved = (props) => {
                             
                         </Typography>
                         <Typography variant="body1" color="textSecondary" className={classes.daysLeft} component="p">
-                            {`${calculateRemainingTime(book, profile)} hrs left`}
+                            {`${calculateRemainingTime(profile, book.reserved_on, 'reserved')} hrs left`}
                         </Typography>
                     </div>
                     <div className="profile-books-btns">

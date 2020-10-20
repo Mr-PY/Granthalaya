@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./LibrarianUsers.css";
+import { useSelector } from 'react-redux';
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import AddUser from "./AddUser";
@@ -19,6 +20,7 @@ const blockToRender = (selected) => {
 };
 
 const LibrarianUsers = () => {
+  const profile = useSelector(state=> state.firebase.profile);
   const [selected, setSelected] = useState("add");
   return (
     <div className="librarian-users">
@@ -51,7 +53,7 @@ const LibrarianUsers = () => {
       {blockToRender(selected)}
       <LibrarianUserSearch />
       <div className="librarian-table-wrapper">
-        <LibrarianUsersTable />
+        <LibrarianUsersTable profile={profile} />
       </div>
     </div>
   );

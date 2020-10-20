@@ -43,6 +43,11 @@
   height: 57px;
 }
 
+.librarian-table-wrapper {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
 @media screen and (max-width: 960px) {
   .librarian-search {
     gap: 1em;
