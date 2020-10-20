@@ -4,16 +4,21 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 import { setSnackbar } from "../../redux";
+import Slide from '@material-ui/core/Slide';
 
 const useStyles = makeStyles(theme => ({
     root: {
       width: "100%",
-      "& > * + *": {
-        marginTop: theme.spacing(2)
-      }
+      // "& > * + *": {
+      //   marginTop: theme.spacing(3)
+      // }
     }
   })
 );
+
+function SlideTransition(props) {
+  return <Slide {...props} direction="left" />;
+}
 
 const CustomizedSnackbar = () => {
   const classes = useStyles();
@@ -33,6 +38,8 @@ const CustomizedSnackbar = () => {
     return (
     <div className={classes.root}>
       <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        TransitionComponent={ SlideTransition }
         open={snackbarOpen}
         autoHideDuration={4000}
         onClose={handleClose}

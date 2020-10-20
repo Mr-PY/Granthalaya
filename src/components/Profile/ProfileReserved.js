@@ -113,7 +113,7 @@ const ProfileReserved = (props) => {
                     </div>
                     <div className="profile-book-details">
                         <Typography variant="h6" color="textSecondary" component="p" className={classes.heading} style={{lineHeight:"24px", paddingBottom:"10px"}}>
-                        {book.book_title}
+                            {book.book_title}
                         </Typography>
                         <Typography variant="body1" color="textSecondary" component="p" className={classes.date} style={{lineHeight:"24px", paddingBottom:"8px"}}>
                             on {date().toLocaleDateString("en-gb", options)}
