@@ -10,7 +10,7 @@ export const signUp = (newUser) =>{
         ).then((response) => {
             return firestore.collection('users').doc(response.user.uid).set({
                 user_name: newUser.fullName,
-                user_email: newUser.email,
+                user_email: newUser.email.toLowerCase(),
                 user_phone: newUser.phone,
                 joined_on: new Date(),
                 is_admin: false,
@@ -18,17 +18,23 @@ export const signUp = (newUser) =>{
                 reserved_list: [],
                 user_image: ''
             }).then(() =>{
-                newUser.setLoading(false) 
                 dispatch({type: "SIGNUP_SUCCESS"})
                 dispatch(
-                    setSnackbar(true, 'success', 'Welcome to Granthalaya...')
+                    setSnackbar(true, 'success', `Hello, ${newUser.fullName}. Welcome to Granthalaya.`)
                 )
             }).catch(error=>{
-                    newUser.setLoading(false)
+                newUser.setLoading(false)
                 dispatch({type: "SIGNUP_ERROR", payload: error})
-                dispatch(
-                    setSnackbar(true, 'error', 'Unable to Create account. Try again later.')
-                )
+                if(error.code ==='auth/email-already-exists'){
+                    dispatch(
+                        setSnackbar(true, 'error', `An Account with this email already exists.`)
+                    )
+                }
+                else{
+                    dispatch(
+                        setSnackbar(true, 'error', `${error.message}`)
+                    )
+                }
             })
         })
     }

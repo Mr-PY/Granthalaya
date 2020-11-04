@@ -19,20 +19,20 @@ const handleBorrow = (id, bookDetails, userBorrowedList, userReservedList, uid, 
     const borrowedBook = {
         book_id: bookDetails.book_id,
         book_title: bookDetails.book_title,
+        book_author: bookDetails.book_author,
         book_image: bookDetails.book_image,
         borrowed_on: new Date()
       }
 
     userBorrowedList.push(borrowedBook)
-        dispatch(
-          borrowBook({
-            userId: uid,
-            book_title: bookDetails.book_title,
-            borrowed_list: userBorrowedList,
-            book_id: id,
-            book_available: bookDetails.book_available,
-        }))
     
-    console.log("Book borrowed");
+    dispatch(
+      borrowBook({
+        userId: uid,
+        book_title: bookDetails.book_title,
+        borrowed_list: userBorrowedList,
+        book_id: id,
+        book_available: bookDetails.book_available,
+    }))
   }
 export default handleBorrow

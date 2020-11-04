@@ -21,16 +21,19 @@ const handleReserve = (id, bookDetails,  userBorrowedList, userReservedList, uid
         book_id: bookDetails.book_id,
         book_title: bookDetails.book_title,
         book_image: bookDetails.book_image,
+        book_author: bookDetails.book_author,
         reserved_on: new Date()
       }
 
     userReservedList.push(reservedBook)
-        dispatch(
-          reserveBook({
-            userId: uid,
-            reserved_list: userReservedList,
-            book_id: id,
-            book_available: bookDetails.book_available,
-        }))
+    
+    dispatch(
+      reserveBook({
+        userId: uid,
+        reserved_list: userReservedList,
+        book_id: id,
+        book_title: bookDetails.book_title,
+        book_available: bookDetails.book_available,
+    }))
   }
 export default handleReserve

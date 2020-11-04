@@ -1,9 +1,9 @@
-import React from "react";
-import "./Search.css";
-import { makeStyles } from '@material-ui/core/styles';
-import InputAdornment from "@material-ui/core/InputAdornment";
-import TextField from "@material-ui/core/TextField";
-import SearchIcon from "@material-ui/icons/Search";
+import React from "react"
+import "./Search.css"
+import { makeStyles } from '@material-ui/core/styles'
+import InputAdornment from "@material-ui/core/InputAdornment"
+import TextField from "@material-ui/core/TextField"
+import SearchIcon from "@material-ui/icons/Search"
 
 const useStyles = makeStyles(theme=>({
   input: {
@@ -14,17 +14,16 @@ const useStyles = makeStyles(theme=>({
       fontSize: "1.2em"
     }
   },
-}));
+}))
 
 
 const Search = (props) => {
   const {search, setSearch} = props
-  const classes = useStyles(props);
+  const classes = useStyles(props)
   return (
     <div className="search-wrapper">
       <div className="search-container">
         <TextField
-          autoFocus
           className= 'search-field'
           placeholder="Search books, articles etc.,"
           variant="outlined"
@@ -43,7 +42,7 @@ const Search = (props) => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Search;
+export default Search

@@ -9,54 +9,38 @@
   justify-content: space-around;
 }
 .reservation-user-details-wrapper {
+  gap: 1em;
+  width: 40%;
   display: flex;
   align-items: center;
-  gap: 1em;
+  padding-left: 1em;
+  justify-content: flex-start;
 }
 .requested {
   width: 20%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
-.left-line {
-  content: "";
-  display: block;
-  width: 3em;
-  height: 2px;
-  background-color: #000000;
-  background-image: linear-gradient(90deg, #b4b4b4 0%, #00000080 100%);
-}
-.right-line {
-  content: "";
-  display: block;
-  width: 3em;
-  height: 2px;
-  border-radius: 1px;
-  background-color: #000000;
-  background-image: linear-gradient(90deg, #00000080 0%, #b4b4b4 100%);
-}
-.reservation-user-avatar {
-}
-.reservation-user-details {
-}
+
 .reservation-book-details-wrapper {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  width: 40%;
   gap: 1em;
 }
-.reservation-book-img {
-  max-width: 60px;
-  height: 70px;
+.reservation-book-img img {
+  width: 70px;
+  height: 80px;
   border-radius: 0 5px 5px 0;
   box-shadow: 4px 2px 5px rgba(46, 46, 46, 0.506),
     8px 4px 10px rgba(46, 46, 46, 0.308);
-}
-.reservation-book-details {
 }
 .reservation-buttons {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 1em;
 }

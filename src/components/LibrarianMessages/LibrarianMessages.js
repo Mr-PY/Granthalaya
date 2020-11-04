@@ -1,18 +1,23 @@
-import React, { useState } from "react";
-import "./LibrarianMessages.css";
-import LibrarianMessagesTable from "./LibrarianMessagesTable";
-import ReplyMessage from "./ReplyMessage";
+import React from "react"
+import { useSelector} from 'react-redux'
+import "./LibrarianMessages.css"
+import LibrarianMessagesTable from "./LibrarianMessagesTable"
+import {firestoreConnect} from 'react-redux-firebase'
 
 const LibrarianMessages = () => {
-  const [reply, setReply] = useState(false);
+  const messages = useSelector(state => state.firestore.ordered.messages)
+
   return (
     <div className="librarian-messages">
-      {reply ? <ReplyMessage reply={reply} setReply={setReply} /> : ""}
       <div className="librarian-table-wrapper">
-        <LibrarianMessagesTable reply={reply} setReply={setReply} />
+        {messages ? <LibrarianMessagesTable messages={messages}/> : <></>}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LibrarianMessages;
+export default firestoreConnect(
+  [
+    { collection: 'messages'}
+  ]
+)(LibrarianMessages)

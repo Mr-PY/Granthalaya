@@ -1,144 +1,133 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Collapse from "@material-ui/core/Collapse";
-import IconButton from "@material-ui/core/IconButton";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import TableBody from "@material-ui/core/TableBody";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import TelegramIcon from "@material-ui/icons/Telegram";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
-import calculateRemainingTime from '../../helpers/RemainingTimeCalculater'
+import React, { useState } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import TableBody from "@material-ui/core/TableBody"
+import TableRow from "@material-ui/core/TableRow"
+import TableCell from "@material-ui/core/TableCell"
+import Paper from "@material-ui/core/Paper"
+import Toolbar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import ExpandLessIcon from "@material-ui/icons/ExpandLess"
+import InputAdornment from '@material-ui/core/InputAdornment'
+import TextField from '@material-ui/core/TextField'
+import Checkbox from '@material-ui/core/Checkbox'
+import Button from '@material-ui/core/Button'
+import SearchIcon from "@material-ui/icons/Search"
+import useTable from '../useTable/useTable'
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
+import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import EditUser from "./EditUser"
+import AssignBooksToUser from "./AssignBooksToUser"
 
 const useStyles = makeStyles({
   root: {
     "& > *": {
       borderBottom: "unset",
     },
+    '&:nth-of-type(even)': {
+      backgroundColor: '#efefef',
+    }
   },
-});
+  dropDown:{
+    maxWidth: '50px'
+  },
+  userName:{
+    minWidth: '150px'
+  },
+  userEmail:{
+    minWidth: '220px'
+  },
+  userPhone:{
+    minWidth: '120px'
+  },
+  reservedLength:{
+    minWidth: '50px'
+  },
+  borrowedLength:{
+    minWidth: '50px'
+  },
+  joinedOn:{
+    minWidth: '150px'
+  },
+  actions:{
+    minWidth: '150px'
+  }
+})
 
-const UserRow = ({user, profile}) => {
-
-  const [open, setOpen] = useState(false);
+const UserRow = ({ user, books }) => {
   const classes = useStyles()
+  const [dropDown, setDropDown] = useState(false)
+  // const [editUserOpen, setEditUserOpen] = useState(false)
+  const [assignBookOpen, setAssignBookOpen] = useState(false)
 
-  const getDate = (date) => {
+  const getDate = date => {
     const dateInSeconds =  date ? date.seconds * 1000 : 0
     return dateInSeconds
   }
 
-  return (
+  return(
     <>
       <TableRow className={classes.root}>
-        <TableCell style={{ maxWidth: 30 }}>
+        <TableCell className={classes.dropDown}>
           <IconButton
             aria-label="expand row"
             size="small"
-            onClick={() => setOpen(!open)}
+            onClick={() => setDropDown(!dropDown)}
           >
-            {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            {dropDown ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </IconButton>
         </TableCell>
-        <TableCell
-          component="th"
-          scope="row"
-          align="right"
-          style={{ minWidth: 200 }}
-        >
-          {user.id}
+        <TableCell className={classes.userName}>
+          {user.user_name}
         </TableCell>
-        <TableCell style={{ width: 200 }}>{user.user_name}</TableCell>
-        <TableCell style={{ width: 200 }}>{user.user_email}</TableCell>
-        <TableCell style={{ width: 100 }}>{user.user_phone}</TableCell>
-        <TableCell align="right" style={{ width: 80 }}>
+        <TableCell className={classes.userEmail}>
+          {user.user_email}
+        </TableCell>
+        <TableCell className={classes.userPhone}>
+          {user.user_phone}
+        </TableCell>
+        <TableCell className={classes.reservedLength}>
           {user.reserved_list.length}
         </TableCell>
-        <TableCell align="right" style={{ width: 80 }}>
+        <TableCell className={classes.borrowedLength}>
           {user.borrowed_list.length}
         </TableCell>
-        <TableCell align="center" style={{ maxWidth: 150 }}>
+        <TableCell className={classes.joinedOn}>
           {new Date(getDate(user.joined_on)).toLocaleDateString("en-gb")}
         </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell
-          style={{ paddingBottom: 0, paddingTop: 0, paddingLeft: "5em" }}
-          colSpan={6}
-        >
-          <Collapse in={open} timeout="auto" unmountOnExit>
-          <Box margin={2}>
-              <Typography variant="h6" gutterBottom component="div">
-                Reserved Books
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Slno</TableCell>
-                    <TableCell>Book Title</TableCell>
-                    <TableCell align="right">Reserved On</TableCell>
-                    <TableCell align="right">Time Left</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {user.reserved_list.map((reserved_book) => (
-                    <TableRow key={reserved_book.book_id}>
-                      <TableCell component="th" scope="row">
-                        {reserved_book.book_id}
-                      </TableCell>
-                      <TableCell>{reserved_book.book_title}</TableCell>
-                      <TableCell align="right">
-                        {new Date(getDate(reserved_book.reserved_on)).toLocaleDateString("en-gb")}
-                      </TableCell>
-                      <TableCell align="right">
-                        {calculateRemainingTime(profile, reserved_book.reserved_on, 'reserved')}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-            <Box margin={2}>
-              <Typography variant="h6" gutterBottom component="div">
-                Borrowed Books
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Slno</TableCell>
-                    <TableCell>Book Title</TableCell>
-                    <TableCell align="right">Borrowed On</TableCell>
-                    <TableCell align="right">Days Left</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {user.borrowed_list.map((borrowed_book) => (
-                    <TableRow key={borrowed_book.book_id}>
-                      <TableCell component="th" scope="row">
-                        {borrowed_book.book_id}
-                      </TableCell>
-                      <TableCell>{borrowed_book.book_title}</TableCell>
-                      <TableCell align="right">
-                      {new Date(getDate(borrowed_book.borrowed_on)).toLocaleDateString("en-gb")}
-                      </TableCell>
-                      <TableCell align="right">
-                        {calculateRemainingTime(profile, borrowed_book.borrowed_on, 'borrowed')}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
+        <TableCell className={classes.actions}>
+          {/* <IconButton 
+            aria-label="edit user details"
+            size="medium"
+            onClick={()=>setEditUserOpen(true)}
+          >
+            <EditIcon/>
+          </IconButton>
+          <EditUser 
+            user={user}
+            editUserOpen={editUserOpen} 
+            setEditUserOpen={setEditUserOpen}
+          />&nbsp; */}
+          <IconButton 
+            aria-label="assign books to user"
+            size="medium"
+            color="primary"
+            onClick={()=>setAssignBookOpen(true)}
+          >
+            <PostAddIcon user={ user }/>
+          </IconButton>
+          <AssignBooksToUser
+            user={user}
+            books={books}
+            assignBookOpen={assignBookOpen} 
+            setAssignBookOpen={setAssignBookOpen}
+          />
         </TableCell>
       </TableRow>
     </>
-  );
+  )
 };
 
 export default UserRow;

@@ -1,4 +1,5 @@
-import { updatePassword } from "../redux";
+import { updatePassword } from "../redux"
+import { setSnackbar } from '../redux'
 
 const handleChangePassword = (oldPassword, newPassword, confirmPassword,
     setLoading, setChangePasswordOpen, setOldPasswordError, setNewPasswordError, 
@@ -6,8 +7,7 @@ const handleChangePassword = (oldPassword, newPassword, confirmPassword,
     clearErrors, clearInputs, dispatch
     ) => {
 
-    clearErrors();
-    setLoading(true)
+    clearErrors()
 
     if(!oldPassword){
         setOldPasswordError("Current Password is required")
@@ -22,11 +22,18 @@ const handleChangePassword = (oldPassword, newPassword, confirmPassword,
         return
     }
     if(newPassword !== confirmPassword){
-        setConfirmPasswordError("Password doesn't match")
+        setConfirmPasswordError("Password didn't match")
+        return
+    }
+    if(oldPassword === newPassword){
+        dispatch(
+            setSnackbar(true, 'error', "New Password can't be same as Old Password")
+        )
+        setLoading(false)
         return
     }
     clearInputs()
-
+    setLoading(true)
     dispatch(
         updatePassword({
             oldPassword,

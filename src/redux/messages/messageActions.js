@@ -18,7 +18,7 @@ export const sendMessage = (message) => {
         }).catch((error)=>{
             dispatch({ type: 'SEND_MESSAGE_ERROR', payload: error })
             dispatch(
-                setSnackbar(true, 'error', 'Unable to send message, try again.')
+                setSnackbar(true, 'error', `Unable to send message. ${error.message}`)
             )
         })
     }

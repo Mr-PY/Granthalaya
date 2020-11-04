@@ -1,88 +1,96 @@
-import React, { useState } from "react";
-import { useSelector} from 'react-redux';
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TablePagination from "@material-ui/core/TablePagination";
-import Paper from "@material-ui/core/Paper";
-import MessagesRow from "./MessagesRow";
-import {firestoreConnect} from 'react-redux-firebase';
+import React, { useState } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import TableBody from "@material-ui/core/TableBody"
+import TableRow from "@material-ui/core/TableRow"
+import TableCell from "@material-ui/core/TableCell"
+import Paper from "@material-ui/core/Paper"
+import Toolbar from '@material-ui/core/Toolbar'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import TextField from '@material-ui/core/TextField'
+import SearchIcon from "@material-ui/icons/Search"
+import useTable from '../useTable/useTable'
+import MessageRow from "./MessageRow"
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme=>({
   root: {
     width: "100%",
   },
   container: {
     maxHeight: "100%",
   },
-});
+  pageContent: {
+    margin: theme.spacing(5),
+    padding: theme.spacing(3)
+  },
+  searchInput: {
+      width: '100%'
+  }
+}))
 
-const LibrarianMessagesTable = ({ reply, setReply }) => {
-  const messages = useSelector(state => state.messages.messages);
-  const classes = useStyles();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+const headCells = [
+  { id: 'dropDown', label: ' ', disableSorting: true },
+  { id: 'sender_email', label: 'Email' },
+  { id: 'message_type', label: 'Type' },
+  { id: 'sent_on', label: 'Sent On'},
+  {id: 'Reply', label: 'Send Reply', disableSorting: true }
+]
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+const LibrarianMessagesTable = ({ messages }) => {
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  const classes = useStyles()
+  const [filteredValues, setFilteredValues] = useState(messages)
+
+  const searchFilter = e => {
+      let search = e.target.value
+      const temp = messages.filter(message =>message.sender_email.toLowerCase().includes(search.toLowerCase()) )
+      setFilteredValues(temp)
+  }
+
+  const {
+      TblContainer,
+      TblHead,
+      TblPagination,
+      recordsAfterPagingAndSorting,
+      emptyRows
+  } = useTable( messages, headCells, filteredValues, 'sent_on')
 
   return (
-    <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
-        <Table
-          style={{ maxWidth: "100%" }}
-          aria-label="collapsible table"
-          stickyHeader
-          className="librarian-users-table"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell align="right">Id</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell align="center">Reply?</TableCell>
-            </TableRow>
-          </TableHead>
+    <>
+      <Paper className={classes.pageContent}>
+        <Toolbar>
+          <TextField
+            label="Search Messages"
+            variant="outlined"
+            size="medium"
+            className={classes.searchInput}
+            InputProps={{
+                startAdornment:(
+                  <InputAdornment position="start">
+                    {<SearchIcon/>}
+                  </InputAdornment>
+                )
+            }}
+            onChange={searchFilter}
+          />
+        </Toolbar>
+        <TblContainer>
+          <TblHead/>
           <TableBody>
-            {messages.map(message =>(
-            <MessagesRow
-                key={message.id}
-                message={message}
-                reply={reply}
-                setReply={setReply}
-              />))}
+            {recordsAfterPagingAndSorting().map((message) => (
+              <MessageRow message={message} key={message.id}/>
+            ))}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: (53 * emptyRows) }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
           </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        style={{ width: "100%" }}
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={messages.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </Paper>
-  );
-};
+        </TblContainer>
+        <TblPagination/>
+      </Paper>
+    </>
+  )
+}
 
-export default firestoreConnect(
-  [
-    { collection: 'messages'}
-  ]
-)(LibrarianMessagesTable);
+export default LibrarianMessagesTable

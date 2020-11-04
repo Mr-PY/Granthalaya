@@ -1,63 +1,32 @@
 import { setSnackbar } from '../../redux'
 
-export const addUser =  (user) => {
-    return(dispatch, getState, {getFirebase, getFirestore}) =>{
-        //firebase Stuff
-        const db = getFirestore();
-        const userRef = db.collection('users').doc();
-        userRef.set({
-            user_name: user.user_name,
-            user_email: user.user_email,
-            user_phone: user.user_phone,
-            joined_on: user.joined_on,
-            is_admin: user.is_admin,
-            borrowed_list: user.borrowed_list,
-            reserved_list: user.reserved_list,
-            user_image: user.user_image
-        }
-        ).then(()=>{
-            dispatch(
-                setSnackbar(true, 'success', `User ${user.user_name} Added Successfully`)
-            )
-            dispatch({ type: 'ADD_USER', payload: user })
-        }).catch((error)=>{
-            dispatch(
-                setSnackbar(true, 'error', "Unable to add user. Try again later")
-            )
-            dispatch({ type: 'ADD_USER_ERROR', payload: error })
-        })
-    }
-}
 
-export const deleteUser = (user) => {
-    return(dispatch, getState) =>{
-        //firebase Stuff
-        dispatch({ type: 'DELETE_USER', payload: user })
-    }
+export const AssignBookToUser = () => {
+    
 }
 
 export const modifyuser = () => {
 
 }
 
-export const modifyUserProfile = (user) => {
+export const modifyUserProfile = (data) => {
     return(dispatch, getState, {getFirebase, getFirestore}) =>{
         //firebase Stuff
         const db = getFirestore();
-        const userRef = db.collection('users').doc(user.id);
+        const userRef = db.collection('users').doc(data.id);
         userRef.update({
-            user_name: user.user_name,
-            user_phone: user.user_phone,
-            user_image: user.user_image
+            user_name: data.user_name,
+            user_phone: data.user_phone,
+            user_image: data.user_image
         }
         ).then(()=>{
             dispatch(
                 setSnackbar(true, 'success', "Profile Updated Successfully")
             )
-            user.setEditDetailsOpen(false)
+            data.setEditDetailsOpen(false)
         }).catch((error)=>{
             dispatch(
-                setSnackbar(true, 'error', "Unable to save changes. Try again later")
+                setSnackbar(true, 'error', `Error occured: ${error.message}`)
             )
         })
     }
@@ -71,8 +40,8 @@ export const updatePassword = (data) => {
         const credential = firebase.auth.EmailAuthProvider.credential(
                             user.email, data.oldPassword);
         user.reauthenticateWithCredential(credential)
-        .then(()=>{
-            user.updatePassword(data.newPassword).then(() =>{
+            .then(()=>{
+                user.updatePassword(data.newPassword).then(() =>{
                 dispatch(
                     setSnackbar(true, 'success', "Password Updated Successfully")
                 )
@@ -80,15 +49,15 @@ export const updatePassword = (data) => {
                 data.setChangePasswordOpen(false)
             }).catch((error)=>{
                 dispatch(
-                    setSnackbar(true, 'error', "Unable to update password")
+                    setSnackbar(true, 'error', `Unable to update password: ${error.message}`)
                     )
                 });
                 data.setLoading(false)
-            }).catch((error)=>{
-                dispatch(
-                    setSnackbar(true, 'error', 'Password is invalid')
-                )
-                data.setLoading(false)
+        }).catch((error)=>{
+            dispatch(
+                setSnackbar(true, 'error', 'Invalid Password')
+            )
+            data.setLoading(false)
         })
     }
 }

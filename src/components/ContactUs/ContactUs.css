@@ -1,17 +1,23 @@
 .contact-us-container {
-  position: relative;
+  width: 100vw;
+  position: absolute;
+  top: 60px;
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 .contact-us-banner {
-  position: absolute;
-  left: 0;
-  top: 80px;
+  margin: 0;
+  padding: 0;
   background: linear-gradient(
     180deg,
     rgb(36, 69, 119) 0%,
     rgb(27, 63, 143) 50%,
     rgb(36, 91, 175) 100%
   );
-  width: 100vw;
+  width: 100%;
   height: 60px;
 }
 .contact-us-heading {
@@ -21,20 +27,27 @@
   color: #eee;
   text-align: center;
 }
+.contact-us-body-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+}
 .contact-us-body {
   background: #efefef;
   border-radius: 0.5em;
-  position: absolute;
+  position: relative;
   width: 340px;
-  top: 200px;
   left: 50%;
   transform: translate(-50%);
   padding: 3em 1.5em;
 }
 
 @media all and (min-width: 1016px) {
-  .contact-us-banner {
-    margin-left: -10%;
+  .contact-us-container {
+    top: 80px;
+    height: calc(100vh - 80px);
   }
   .contact-us-body {
     width: 400px;

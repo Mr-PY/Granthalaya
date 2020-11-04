@@ -4,11 +4,14 @@
 .signup-page-overlay {
   display: none;
 }
-.signup-container {
+.signup-wrapper {
+  width: 100vw;
   position: relative;
-  margin-top: 0;
-  z-index: 3;
-  height: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 @media screen and (min-width: 960px) {
   .signup-page-bg {
@@ -19,20 +22,18 @@
     height: 100vh;
     background: url("/assets/images/signupPage.jpg") center center;
     background-size: cover;
-    z-index: 1;
   }
   .signup-page-overlay {
+    display: block;
     position: absolute;
     top: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.1);
-    z-index: 2;
+    background: #1d1d1d;
+    opacity: 0.2;
   }
   .signup-container {
-    margin-top: 2rem;
-    padding: 0 1em;
-  }
-  .signup-box {
+    /* padding: 0 1em; */
+    position: relative;
   }
 }

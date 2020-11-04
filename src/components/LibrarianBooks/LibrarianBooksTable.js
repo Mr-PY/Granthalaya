@@ -1,83 +1,132 @@
-import React, { useState } from "react";
-import { useSelector} from 'react-redux';
-import { makeStyles } from "@material-ui/core/styles";
-import BookRow from "./BookRow";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TablePagination from "@material-ui/core/TablePagination";
-import Paper from "@material-ui/core/Paper";
-import {firestoreConnect} from 'react-redux-firebase';
+import React, { useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import TableBody from '@material-ui/core/TableBody'
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import Paper from '@material-ui/core/Paper'
+import Toolbar from '@material-ui/core/Toolbar'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import SearchIcon from '@material-ui/icons/Search'
+import QueueIcon from '@material-ui/icons/Queue'
+import useTable from '../useTable/useTable'
+import BookRow from './BookRow'
+import AddBook from './AddBook'
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme=>({
   root: {
     width: "100%",
   },
   container: {
     maxHeight: "100%",
   },
-});
+  pageContent: {
+    margin: `${theme.spacing(2)} ${theme.spacing(5)}`,
+    padding: theme.spacing(3)
+  },
+  toolbar:{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-evenly'
+  },
+  searchInput: {
+      width: '75%'
+  },
+  button:{
+    width: '150px',
+    height: '55px',
+  },
+}))
 
-const LibrarianTable = () => {
-  const books = useSelector(state => state.firestore.ordered.books);
-  const classes = useStyles();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+const headCells = [
+  { id: 'dropDown', label: ' ', disableSorting: true },
+  { id: 'book_title', label: 'Title' },
+  { id: 'book_author', label: 'Author' },
+  { id: 'book_department', label: 'Where To Find' },
+  { id: 'book_total', label: 'Total' },
+  { id: 'book_available', label: 'Available' },
+  { id: 'book_added_on', label: 'Added On'},
+  { id: 'book_actions', label: 'Actions', disableSorting: true },
+]
+const LibrarianBooksTable = ({ books }) => {
+  
+  const classes = useStyles()
+  const [addBookOpen, setAddBookOpen] = useState(false)
+  const [filteredValues, setFilteredValues] = useState(books)  
+  
+  const searchFilter = e => {
+    let search = e.target.value
+    const temp = books.filter(book =>
+        book.book_title.toLowerCase().includes(search.toLowerCase()) || 
+        book.book_author.toLowerCase().includes(search.toLowerCase())||
+        book.book_department.toLowerCase().includes(search.toLowerCase()))
+    setFilteredValues(temp)
+  }      
+  
+  const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting,
+    emptyRows
+  } = useTable( books, headCells, filteredValues, 'book_title')
+  
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  return (
-    <Paper className="librarian-table-Container">
-      <TableContainer className={classes.container}>
-        <Table
-          style={{ maxWidth: "100%" }}
-          aria-label="collapsible table"
-          stickyHeader
-          className="librarian-books-table"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell align="right">Id</TableCell>
-              <TableCell>Book Title</TableCell>
-              <TableCell>Author</TableCell>
-              <TableCell>Where To Find</TableCell>
-              <TableCell align="right">Total</TableCell>
-              <TableCell align="right">Available</TableCell>
-            </TableRow>
-          </TableHead>
+  return ( 
+    <>
+      <Paper className={classes.pageContent}>
+        <Toolbar className={classes.toolbar}>
+          <TextField
+            label="Search Books"
+            variant="outlined"
+            size="medium"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment:(
+                <InputAdornment position="start">
+                  {<SearchIcon/>}
+                </InputAdornment>
+              )
+            }}
+            onChange={searchFilter}
+          />
+          <div className={classes.button}>
+            <Button  
+              color="primary" 
+              variant="contained"
+              size="large"
+              className={classes.button}
+              onClick={()=>setAddBookOpen(true)}
+              startIcon={<QueueIcon/>}
+            >
+              Add Book
+            </Button>
+            <AddBook
+              books={books} 
+              addBookOpen={addBookOpen}
+              setAddBookOpen={setAddBookOpen}
+            />
+          </div>
+        </Toolbar>
+        <TblContainer>
+          <TblHead/>
           <TableBody>
-            {books && books.map((book) => (
-              <BookRow key={book.book_id} book={book} />
-            ))}
+            {books && recordsAfterPagingAndSorting().map((book) => {
+              return <BookRow book={book} key={book.id}/>
+            })}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: (53 * emptyRows) }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
           </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={books ? books.length : 0}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </Paper>
-  );
-};
+        </TblContainer>
+        <TblPagination/>
+      </Paper>
+    </>
+  )
+}
 
-export default firestoreConnect(
-  [
-    {collection: 'books'}
-  ]
-  )(LibrarianTable);
+export default LibrarianBooksTable;

@@ -1,13 +1,21 @@
-.search-container {
+.search-wrapper {
   background: #1582ff;
   position: relative;
   width: 100%;
-  top: 80px;
-  height: 80px;
+  top: 60px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
+}
+.search-container {
+  width: 90%;
+  height: 60px;
+  padding: 0 20px;
+  max-width: 1500px;
+  display: flex;
+  align-items: center;
 }
 .search-field {
   background: #0d5ab3;
@@ -16,7 +24,12 @@
 }
 
 @media screen and (min-width: 960px) {
-  .search-container {
+  .search-wrapper {
+    top: 80px;
     height: 100px;
+  }
+  .search-container {
+    width: 80%;
+    height: 80px;
   }
 }

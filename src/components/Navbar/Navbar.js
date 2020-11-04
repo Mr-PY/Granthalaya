@@ -49,7 +49,7 @@ const Navbar = ({ active }) => {
           </Link>
           <div className="menu-icon" onClick={handleClick}>
             {click ? (
-              <CloseIcon fontSize="large" style={{backgroundColor: "#efefef"}}/>
+              <CloseIcon fontSize="medium" style={{backgroundColor: "#efefef"}}/>
             ) : (
               <MenuIcon fontSize="large" style={{color: "#eee"}}/>
             )}

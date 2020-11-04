@@ -53,6 +53,7 @@ const handleBookBorrow = (id, profile, book, dispatch) => {
         dispatch(
             reservedToBorrowed({
                 user_id: id,
+                book_title: book.book_title,
                 reserved_list: updatedReservedList,
                 borrowed_list: borrowedList,
 
@@ -70,6 +71,7 @@ const handleBookRemove = (id, profile, book, books, dispatch) => {
                 user_id: id,
                 reserved_list: updatedReservedList,
                 book_id: requiredBook[0].id,
+                book_title: book.book_title,
                 book_available: requiredBook[0].book_available,
             }))
     }

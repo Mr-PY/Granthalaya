@@ -6,16 +6,22 @@ export const logIn = ({email, password, setLoading}) => {
             email, password
         ).then(() => {
             dispatch(
-                setSnackbar(true, 'success', 'Welcome...!')
+                setSnackbar(true, 'success', 'Welcome to Granthalaya!')
             )
-            setLoading(false)
             dispatch({ type: 'LOGIN_SUCCESS' });
         }).catch(error => {
             setLoading(false)
             dispatch({ type: 'LOGIN_ERROR', error })
-            dispatch(
-                setSnackbar(true, 'error', 'Email or Password Incorrect')
-            )
+            if(error.code === 'auth/user-not-found'){
+                dispatch(
+                    setSnackbar(true, 'error', `Account not found. Trying Signing Up.`)
+                )
+            }
+            else{
+                dispatch(
+                    setSnackbar(true, 'error', `Email or password Incorrect.`)
+                )
+            }
         })
     }
 }

@@ -43,61 +43,61 @@ const ContactUs = () => {
   if(!auth.uid) return <Redirect to="/login"/>
 
   return (
-    <Container className="contact-us-container">
+    <div className="contact-us-container">
       <div className="contact-us-banner">
         <Typography className="contact-us-heading" variant="h4">
           GET IN TOUCH
         </Typography>
       </div>
-
-      <div className="contact-us-body">
-      <TextField
-          label="Your Email"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-          size="medium"
-          value = {auth ? auth.email : " "}
-          fullWidth
-        />
-        <br />
-        <br />
-      <InputLabel>Reason</InputLabel>
-        <Select
-          value={menuItem}
-          onChange={(e)=>setMenuItem(e.target.value)}
-          fullWidth
-        >
-          <MenuItem value={"Request"}>Request</MenuItem>
-          <MenuItem value={"Suggestion"}>Suggestion</MenuItem>
-          <MenuItem value={"Information"}>Information</MenuItem>
-        </Select>
-        <br />
-        <br />
-        <TextField
-          label="Your Message"
-          rows={6}
-          placeholder="Got any Requests or Suggestions let us know....."
-          variant="outlined"
-          value={message}
-          onClick={() => setMessageError('')}
-          onChange={(e) => setMessage(e.target.value)}
-          multiline
-          fullWidth
-        />
-        <br />
-          <Typography color="error" align="left">
-            {messageError}
-          </Typography>
-        <br />
-        <Button variant="contained" color="primary" fullWidth size="large"
-          onClick={handleSubmit}
+      <div className="contact-us-body-wrapper">
+        <div className="contact-us-body">
+          <TextField
+            label="Your Email"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="filled"
+            size="medium"
+            value = {auth ? auth.email : " "}
+            fullWidth
+            />
+          <br />
+          <br />
+          <InputLabel>Reason</InputLabel>
+          <Select
+            value={menuItem}
+            onChange={(e)=>setMenuItem(e.target.value)}
+            fullWidth
           >
-          SUBMIT
-        </Button>
+            <MenuItem value={"Request"}>Request</MenuItem>
+            <MenuItem value={"Suggestion"}>Suggestion</MenuItem>
+            <MenuItem value={"Information"}>Information</MenuItem>
+          </Select>
+          <br />
+          <br />
+          <TextField
+            label="Your Message"
+            rows={6}
+            placeholder="Got any Requests or Suggestions let us know....."
+            variant="outlined"
+            value={message}
+            error={messageError}
+            helperText={messageError}
+            onClick={() => setMessageError('')}
+            onChange={(e) => setMessage(e.target.value)}
+            multiline
+            fullWidth
+            />
+          <br/>
+          <br />
+          <Button variant="contained" color="primary" fullWidth size="large"
+            onClick={handleSubmit}
+            >
+            SUBMIT
+          </Button>
+        </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

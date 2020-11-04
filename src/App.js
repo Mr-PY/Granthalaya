@@ -16,6 +16,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <div className="app-background"></div>
         <CustomizedSnackbar/>
         <Switch>
           <Route exact path="/" component={homePage} />

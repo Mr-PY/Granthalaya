@@ -39,7 +39,7 @@ const BookDetails = (props) => {
             onClick={() => history.goBack()}
             startIcon={<CloseIcon />}
           >
-            Close
+            <span className="close-btn-text">Close</span>
           </Button>
         </div>
 

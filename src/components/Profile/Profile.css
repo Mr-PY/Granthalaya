@@ -2,6 +2,7 @@
   position: absolute;
   top: 80px;
   width: 100vw;
+  /* height: calc(100% - 80px); */
   margin: 0 auto;
 }
 .profile-container {
@@ -126,7 +127,7 @@
   height: 100%;
 }
 .red {
-  background: #ff1a09;
+  background: #ff0909;
 }
 .green {
   background: #26a69a;

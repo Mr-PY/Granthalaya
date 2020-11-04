@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import Fade from '@material-ui/core/Fade';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import EditIcon from '@material-ui/icons/Edit';
-import CloseIcon from '@material-ui/icons/Close';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { useDispatch } from "react-redux"
+import { makeStyles } from "@material-ui/core/styles"
+import Container from '@material-ui/core/Container'
+import TextField from '@material-ui/core/TextField'
+import Avatar from '@material-ui/core/Avatar'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import Fade from '@material-ui/core/Fade'
+import LockOpenIcon from '@material-ui/icons/LockOpen'
+import EditIcon from '@material-ui/icons/Edit'
+import CloseIcon from '@material-ui/icons/Close'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import InputAdornment from "@material-ui/core/InputAdornment"
+import VisibilityIcon from '@material-ui/icons/Visibility'
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import handleProfileSubmit from '../../helpers/profileHandler'
 import handleChangePassword from '../../helpers/changePasswordHandler'
 
@@ -46,27 +49,25 @@ const useStyles = makeStyles((theme) => ({
     },
     
   })
-);
-
-
+)
 
 const ProfileDetailsBlock = (props) => {
     const {profile, auth} = props
-    const classes = useStyles(props);
-    const imageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-    const [editDetailsOpen, setEditDetailsOpen] = useState(false);
-    const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+    const classes = useStyles(props)
+    const imageTypes = ['image/png', 'image/jpeg', 'image/jpg']
+    const [editDetailsOpen, setEditDetailsOpen] = useState(false)
+    const [changePasswordOpen, setChangePasswordOpen] = useState(false)
 
-    const [name, setName] = useState('');
-    const [nameError, setNameError] = useState('');
-    const [phone, setPhone] = useState('');
-    const [phoneError, setPhoneError] = useState('');
-    const [image, setImage] = useState(null);
-    const [imageError, setImageError] = useState(null);
-    const [uploading, setUploading] = useState(false);
-    const [uploadError, setUploadError] = useState('');
-    const [url, setUrl] = useState('');
-    const [progress, setProgress] = useState(0);
+    const [name, setName] = useState('')
+    const [nameError, setNameError] = useState('')
+    const [phone, setPhone] = useState('')
+    const [phoneError, setPhoneError] = useState('')
+    const [image, setImage] = useState(null)
+    const [imageError, setImageError] = useState('')
+    const [uploading, setUploading] = useState(false)
+    const [uploadError, setUploadError] = useState('')
+    const [url, setUrl] = useState('')
+    const [progress, setProgress] = useState(0)
     const [oldPassword, setOldPassword] = useState('')
     const [oldPasswordError, setOldPasswordError] = useState('')
     const [newPassword, setNewPassword] = useState('')
@@ -74,63 +75,70 @@ const ProfileDetailsBlock = (props) => {
     const [confirmNewPassword, setConfirmNewPassword] = useState('')
     const [confirmNewPasswordError, setConfirmNewPasswordError] = useState('')
     const [loading, setLoading] = useState(false)
+    const [oldPasswordHidden, setOldPasswordHidden]= useState(false)
+    const [newPasswordHidden, setNewPasswordHidden]= useState(false)
 
     const dispatch = useDispatch()
 
     const handleOpen = (value) => {
         value==='editDetails'
         ? setEditDetailsOpen(true) : setChangePasswordOpen(true)
-    };
+    }
 
     const handleClose = () => {
-        setUrl('');
-        setEditDetailsOpen(false);
-        setChangePasswordOpen(false);
-    };
+        setOldPassword('')
+        setNewPassword('')
+        setConfirmNewPassword('')
+        setUrl('')
+        setEditDetailsOpen(false)
+        setChangePasswordOpen(false)
+    }
+    
 //Profile page Variables
-    let initials =' ';
-    let displayName = 'Name';
-    let displayEmail = 'email@email.com';
-    let displayPhone = '000-000-0000';
+    let initials =' '
+    let displayName = 'Name'
+    let displayEmail = 'email@email.com'
+    let displayPhone = '000-000-0000'
     let displayImage = ''
     
     if (profile.user_name){
-        displayName = profile.user_name;
+        displayName = profile.user_name
 
         displayName.toUpperCase().split(' ').map(
             value => initials += value[0]
-        );
+        )
         
-        displayEmail = profile.user_email;
+        displayEmail = profile.user_email
 
-        let user_phone = profile.user_phone;
-        displayPhone =  user_phone.slice(0,3) + '-' + user_phone.slice(3,6) + '-' + user_phone.slice(6, ); 
+        let user_phone = profile.user_phone
+        displayPhone =  user_phone.slice(0,3) + '-' + user_phone.slice(3,6) + '-' + user_phone.slice(6, ) 
 
         displayImage= profile.user_image
         
     }
 
     const clearInputs = () =>{
-        setName('');
-        setUrl('');
-        setPhone('');
+        setName('')
+        setUrl('')
+        setPhone('')
         setOldPassword('')
         setNewPassword('')
         setConfirmNewPassword('')
     }
 
     const clearErrors = () =>{
-        setNameError('');
-        setImageError(null);
-        setPhoneError('');
+        setNameError('')
+        setImageError('')
+        setPhoneError('')
         setOldPasswordError('')
         setNewPasswordError('')
         setConfirmNewPasswordError('')
+        setUploadError('')
     }
 
     const handleImageAdd = (e) =>{
-        const selected = e.target.files[0];
-        const imageReader = new FileReader();
+        const selected = e.target.files[0]
+        const imageReader = new FileReader()
 
         imageReader.onload = () =>{
             if(imageReader.readyState === 2){
@@ -141,13 +149,13 @@ const ProfileDetailsBlock = (props) => {
         imageReader.readAsDataURL(selected)
 
         if ( selected && imageTypes.includes(selected.type)){
-          setImage(selected); 
-          setImageError('');
+          setImage(selected) 
+          setImageError('')
 
         }
         else{ 
-          setImage(null); 
-          setImageError('File not supported');
+          setImage(null) 
+          setImageError('File not supported')
         }
     }
 
@@ -190,13 +198,13 @@ const ProfileDetailsBlock = (props) => {
             >
                 <DialogTitle id="alert-dialog-title">
                     <div className="title" style={{display: "flex"}}>
-                        <Typography variant="h6" component="div" style={{flexGrow: 1}}>
+                        <Typography variant="h6" component="div" style={{flexGrow: 1}} className="dialog-title">
                             Want to change your Password ?
                         </Typography>
                         <Button color="secondary" onClick={handleClose}><CloseIcon/></Button>
                     </div>
                 </DialogTitle>
-                <DialogContent>
+                <DialogContent dividers>
                     <Fade in={changePasswordOpen}>
                         <Container className="change-password-container">
                             <div className="change-password-box">
@@ -207,19 +215,21 @@ const ProfileDetailsBlock = (props) => {
                                             variant="outlined"
                                             size="medium"
                                             value= {oldPassword}
+                                            error={oldPasswordError ? true : false}
+                                            helperText={oldPasswordError}
                                             required
                                             fullWidth
-                                            type="password"
+                                            type={!oldPasswordHidden ? 'password' : 'text'}
                                             onClick={clearErrors}
                                             onChange={(e)=>setOldPassword(e.target.value)}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end" onClick={() => setOldPasswordHidden(!oldPasswordHidden)} style={{cursor: 'pointer'}}>
+                                                    {!oldPasswordHidden ? <VisibilityIcon /> : <VisibilityOffIcon/>}
+                                                  </InputAdornment>
+                                                ),
+                                              }}
                                         />
-                                    </div>
-                                    <div className="input-fields-arranger" 
-                                    style={oldPasswordError ? {display:'block'} : {display:'none'}}
-                                    >
-                                        <Typography color="error" align="left">
-                                            {oldPasswordError}
-                                        </Typography>
                                     </div>
                                     <div className="input-fields-arranger">
                                         <TextField
@@ -227,19 +237,21 @@ const ProfileDetailsBlock = (props) => {
                                             variant="outlined"
                                             size="medium"
                                             value= {newPassword}
+                                            error={newPasswordError ? true : false}
+                                            helperText={newPasswordError}
                                             required
                                             fullWidth
-                                            type="password"
+                                            type={!newPasswordHidden ? 'password' : 'text'}
                                             onClick={clearErrors}
                                             onChange={(e)=>setNewPassword(e.target.value)}
+                                            InputProps={{
+                                                endAdornment: (
+                                                  <InputAdornment position="end" onClick={() => setNewPasswordHidden(!newPasswordHidden)} style={{cursor: 'pointer'}}>
+                                                    {!newPasswordHidden ? <VisibilityIcon /> : <VisibilityOffIcon/>}
+                                                  </InputAdornment>
+                                                ),
+                                              }}
                                         />
-                                    </div> 
-                                    <div className="input-fields-arranger" 
-                                    style={newPasswordError ? {display:'block'} : {display:'none'}}
-                                    >
-                                        <Typography color="error" align="left">
-                                            {newPasswordError}
-                                        </Typography>
                                     </div> 
                                     <div className="input-fields-arranger">
                                         <TextField
@@ -247,19 +259,21 @@ const ProfileDetailsBlock = (props) => {
                                             variant="outlined"
                                             size="medium"
                                             value= {confirmNewPassword}
+                                            error={confirmNewPasswordError ? true : false}
+                                            helperText={confirmNewPasswordError}
                                             required
                                             fullWidth
-                                            type="password"
+                                            type={!newPasswordHidden ? 'password' : 'text'}
                                             onClick={clearErrors}
                                             onChange={(e)=>setConfirmNewPassword(e.target.value)}
+                                            InputProps={{
+                                                endAdornment: (
+                                                  <InputAdornment position="end" onClick={() => setNewPasswordHidden(!newPasswordHidden)} style={{cursor: 'pointer'}}>
+                                                    {!newPasswordHidden ? <VisibilityIcon /> : <VisibilityOffIcon/>}
+                                                  </InputAdornment>
+                                                ),
+                                            }}
                                         />
-                                    </div> 
-                                    <div className="input-fields-arranger" 
-                                    style={confirmNewPasswordError ? {display:'block'} : {display:'none'}}
-                                    >
-                                        <Typography color="error" align="left">
-                                            {confirmNewPasswordError}
-                                        </Typography>
                                     </div> 
                                     {loading ? <CircularProgress color="secondary"/> : ''}
                                     <div className="change-submit-button">
@@ -307,15 +321,15 @@ const ProfileDetailsBlock = (props) => {
             >
                 <DialogTitle id="alert-dialog-title">
                     <div className="title" style={{display: "flex"}}>
-                        <Typography variant="h6" component="div" style={{flexGrow: 1}}>
+                        <Typography variant="h6" component="div" style={{flexGrow: 1}}  className="dialog-title">
                             Edit your Profile Details 
                         </Typography>
                         <Button color="secondary" onClick={handleClose} ><CloseIcon/></Button>
                     </div>
                 </DialogTitle>
                 <DialogContent 
-                styles={{padding: 0, margin: 0}}
-                
+                    styles={{padding: 0, margin: 0}}
+                    dividers
                 >
                 <Fade in={editDetailsOpen}>
                     <Container className="edit-details-container">
@@ -325,7 +339,7 @@ const ProfileDetailsBlock = (props) => {
                                     <Avatar 
                                         alt="Profile Image" 
                                         src= {url} 
-                                        className = {url ? classes.avatarImage : classes.avatar }
+                                        className = { url ? classes.avatarImage : classes.avatar }
                                     >
                                         {initials && initials}
                                     </Avatar> 
@@ -366,33 +380,27 @@ const ProfileDetailsBlock = (props) => {
                                     <TextField
                                         label="Full Name"
                                         variant="outlined"
-                                        placeholder={name}
                                         size="medium"
-                                        fullWidth
+                                        placeholder={name}
+                                        error={nameError ? true : false}
+                                        helperText={nameError}
                                         onClick={clearErrors}
                                         onChange={(e)=>setName(e.target.value)}
+                                        fullWidth
                                     />
-                                </div> 
-                                <div className="input-fields-arranger" style={nameError ? {display:'block'} : {display:'none'}}>
-                                    <Typography color="error" align="left">
-                                        {nameError}
-                                    </Typography>
                                 </div>
                                 <div className="input-fields-arranger">
                                     <TextField
                                         label="Phone"
                                         variant="outlined"
-                                        placeholder={phone}
                                         size="medium"
-                                        fullWidth
+                                        placeholder={phone}
+                                        error={phoneError ? true : false}
+                                        helperText={phoneError}
                                         onClick={clearErrors}
                                         onChange={(e)=>setPhone(e.target.value)}
+                                        fullWidth
                                     />
-                                </div> 
-                                <div className="input-fields-arranger" style={phoneError ? {display:'block'} : {display:'none'}}>
-                                    <Typography color="error" align="left">
-                                        {phoneError}
-                                    </Typography>
                                 </div>
                                 <div className="input-fields-arranger">
                                     <TextField
@@ -413,8 +421,8 @@ const ProfileDetailsBlock = (props) => {
                                     variant="contained"
                                     color="primary"
                                     size="large"
-                                    disabled={ uploading ? true : false }
                                     className="details-submit-btn"
+                                    disabled={ uploading ? true : false }
                                     onClick={() => handleProfileSubmit( 
                                         auth.uid, name, phone, url, image, profile, 
                                         setUploading, setProgress, setUrl, setEditDetailsOpen, 

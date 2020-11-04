@@ -47,19 +47,6 @@ const LibrarianNavbar = ({ selected, setSelected }) => {
           >
             <li
               className={
-                selected === "users"
-                  ? "librarian-nav-item link-active"
-                  : "librarian-nav-item"
-              }
-              onClick={() => handleClick("users")}
-            >
-              <PersonIcon /> &nbsp;&nbsp;{
-                selected === "users" ?
-                'Users' : ''
-              }  
-            </li>
-            <li
-              className={
                 selected === "books"
                   ? "librarian-nav-item link-active"
                   : "librarian-nav-item"
@@ -69,6 +56,19 @@ const LibrarianNavbar = ({ selected, setSelected }) => {
               <MenuBookIcon /> &nbsp;&nbsp;{
                 selected === "books" ?
                 'Books' : ''
+              }  
+            </li>
+            <li
+              className={
+                selected === "users"
+                  ? "librarian-nav-item link-active"
+                  : "librarian-nav-item"
+              }
+              onClick={() => handleClick("users")}
+            >
+              <PersonIcon /> &nbsp;&nbsp;{
+                selected === "users" ?
+                'Users' : ''
               }  
             </li>
             <li

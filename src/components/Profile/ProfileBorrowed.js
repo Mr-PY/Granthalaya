@@ -34,6 +34,8 @@ const ProfileBorrowed = ({book, profile}) => {
     const books = useSelector(state => state.firestore.ordered.books)
     const dispatch = useDispatch();
 
+    const remainingTime = calculateRemainingTime(profile, book.borrowed_on, 'borrowed')
+
     const options = {
         weekday: 'long',
         year: 'numeric',
@@ -48,7 +50,7 @@ const ProfileBorrowed = ({book, profile}) => {
     return (
         <div>
             <Card className="profile-book-card">
-                <div className={ calculateRemainingTime(profile, book.borrowed_on, 'borrowed') < 6 ? "profile-book-corner-stick red" : "profile-book-corner-stick green"}> </div>
+                <div className={ remainingTime < 6 ? "profile-book-corner-stick red" : "profile-book-corner-stick green"}> </div>
                 <CardContent className="profile-book-content">
                     <div className="profile-book-img">
                         <img src={book.book_image} alt={book.book_title}/>
@@ -61,7 +63,7 @@ const ProfileBorrowed = ({book, profile}) => {
                             on {new Date(date()).toLocaleDateString("en-gb", options)} 
                         </Typography>
                         <Typography variant="body1" color="textSecondary" component="p">
-                            {`${calculateRemainingTime(profile, book.borrowed_on, 'borrowed')} Days left`}   
+                            {`${remainingTime} Days left`}   
                         </Typography>
                     </div>
                 </CardContent>
@@ -75,6 +77,9 @@ const ProfileBorrowed = ({book, profile}) => {
                     >
                         RETURN
                     </Button>
+                    <Typography variant="h6" style={remainingTime<=0 ? { display: "block", color: "#ff0909" } : { display: "none" }}>
+                        OVERTIME
+                    </Typography>
                 </div>
             </Card>
         </div>

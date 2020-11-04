@@ -8,33 +8,54 @@ import CardContent from '@material-ui/core/CardContent';
 
 
 const LibrarianReservationCard = ({user}) => {
+    let initials = ''
+
+    user.user_name.toUpperCase().split(' ').map(
+        value => initials += value[0]
+    )
+    // const setMaxTextCharacters = (text) => {
+    //     const maxCharacters = 40;
+    //     const textLength = text.length;
+    //     const slicedText = text.slice(0, maxCharacters);
+    //     if(textLength > maxCharacters){
+    //       return `${slicedText}.....`
+    //     }
+    //     return text.slice(0, maxCharacters);
+    // }
+
+    const handleReject = () => {
+
+    }
+
+    const handleUserBorrow = () => {
+        
+    }
+        
     return (
         <Card className="reservation-card">
             <CardContent>
                 <div className="reservation-details-wrapper">
                     <div className="reservation-user-details-wrapper">
                         <div className="reservation-user-avatar">
-                            <Avatar alt="Profile Image" src="/broken-image.jpg" style={{width: '40px', height: '40px', fontSize:'1em', backgroundColor:'#00796b'}}>
-                                AS       
+                            <Avatar alt="Profile Image" src={user.user_image} style={{width: '40px', height: '40px', fontSize:'1em', backgroundColor:'#00796b'}}>
+                                {initials}      
                             </Avatar>
                         </div>
                         <div className="reservation-user-details">
-                            <Typography variant='h6' className='user-details'>Akhil Sai</Typography>
-                            <Typography variant='subtitle1' className='user-details'>akhilsai@email.com</Typography>
+                            <Typography variant='h6' className='user-details'>{user.user_name}</Typography>
+                            <Typography variant='subtitle1' className='user-details'>{user.user_email}</Typography>
                         </div>
                     </div>
                     <div className="requested">
-                        <span className="left-line"></span>
-                        Requested
-                        <span className="right-line"></span>
+                        ---Requested---
                     </div>
                     <div className="reservation-book-details-wrapper">
                         <div className="reservation-book-img">
-                            <img src='url(https://unsplash.com/photos/m-D_PAxLcTo)' alt="book_title"/>
+                            <img src={user.reserved_book_image} alt={user.reserved_book_title}/>
                         </div>
                         <div className="reservation-book-details">
-                                <Typography variant='h6' className='user-details'>Statistics for Business</Typography>
-                                <Typography variant='subtitle1' className='user-details'>David R Anderson</Typography>
+                                <Typography variant='h6' className='user-details'>{user.reserved_book_title}</Typography>
+                                <Typography variant='subtitle1' className='user-details'>{user.reserved_book_author}</Typography>
                         </div>
                     </div>
                 </div>
@@ -44,14 +65,16 @@ const LibrarianReservationCard = ({user}) => {
                     size="medium"
                     variant="contained"
                     color="primary"
+                    onClick={handleUserBorrow}
                 >
-                    Borrowed
+                    User Borrowed
                 </Button>
                 <Button 
                     size="medium"
                     variant="contained"
                     color="secondary"
-                >
+                    onClick={handleReject}
+                    >
                     Reject
                 </Button>
             </CardActions>
