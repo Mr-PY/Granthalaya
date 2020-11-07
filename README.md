@@ -1,4 +1,4 @@
-<h1 align="center"> <img width="24px" height="24px" src="./public/favicon.ico"/> Granthalaya</h1>
+<h1 align="center"> <img width="24px" height="24px" src="./public/favicon.ico"/> GRANTHALAYA</h1>
 <a href="https://granthalay.web.app">
 <img src="./public/assets/readme-images/homepage.png">
 </a>
@@ -8,8 +8,8 @@
 
 ## Introduction
 
-<p style="color:#777">*built and submitted as a college project</p>
-A web app built using React and firebase to  simplify the process of searching, borrowing, and returning the books at a library. Every user has a personalized profile where they could check their borrowed books and
+_\*\*built and submitted as a college project_ <br/>
+A web app built using React and firebase to simplify the process of searching, borrowing, and returning the books at a library. Every user has a personalized profile where they could check their borrowed books and
 even perform different actions.
 <br/>
 <br/>
@@ -53,11 +53,11 @@ The web app is built using react and firebase.
 
 Frontend tech:
 
-- React <span style="color:#63ff44">16.13.1</span>
-- Material UI <span style="color:#63ff44">4.11.0</span>
-- Redux <span style="color:#63ff44">4.0.5</span>
+- React <span style="color:#63ff44">V16.13.1</span>
+- Material UI <span style="color:#63ff44">V4.11.0</span>
+- Redux <span style="color:#63ff44">V4.0.5</span>
 
-Firebase services utilized: <span style="color:#63ff44">7.22.1</span>
+Firebase services utilized: <span style="color:#63ff44">V7.22.1</span>
 
 - Firebase Authentication
 - Cloud Firestore
@@ -70,8 +70,6 @@ Firebase services utilized: <span style="color:#63ff44">7.22.1</span>
 ### Web
 
 ![Granthalaya user panel Web](./public/assets/readme-images/granthalaya.gif)
-
----
 
 ### Admin Panel
 
@@ -178,6 +176,28 @@ Librarian Panel:
 - Need to rethink reservations tab, admin end.
 
 ---
+
+## Contribute
+
+To contribute:
+
+- Fork the repository
+- Clone or Download it
+- If necessary, create a new branch (`git checkout -b feature/feature-name`)
+- `npm install` to install dependencies
+- `npm start` to start localhost at port:3000
+- make changes and add them to git.
+- commit the changes (`git commit -m "commit-message"`)
+- push them to github (`git push origin feature/feature-name`)
+- Create a Pull Request
+
+Found bugs?/Improvements:<br/>
+
+You can report them over [here](https://github.com/Mr-PY/Granthalaya/issues) by opening an issue or you could even message them over in the app through contact-us form.
+
+## License
+
+This project is licensed under the terms of the [MIT](LICENSE) license.
 
 > GitHub [@Mr-PY](https://github.com/Mr-PY) &nbsp;&middot;&nbsp;
 > Instagram [@mr.\_py](https://www.instagram.com/mr._py/)

@@ -23,12 +23,12 @@ const blockToRender = (selected, users) => {
 };
 
 const Librarian = () => {
-  const [selected, setSelected] = useState("users")
+  const [selected, setSelected] = useState("books")
   const users = useSelector(state => state.firestore.ordered.users)
   const profile = useSelector(state=> state.firebase.profile)
 
 
-    // if (!profile.is_admin) return <Redirect to='/' /> 
+  if (profile.isLoaded && !profile.is_admin) return <Redirect to='/' /> 
 
   return (
     <div className="librarian-container">
